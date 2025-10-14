@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, View, StyleSheet, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { BrutalCard, BrutalButton, brutalTextStyle, NeoBrutalism } from './BrutalComponents';
+import { BrutalCard, BrutalButton, brutalTextStyle } from './BrutalComponents';
+import { NeoBrutalism } from '../styles/neoBrutalism';
 import { Text } from 'react-native';
 
 export default function PlaidWebLinkSimple({ linkToken, onSuccess, onExit, visible, onClose }) {

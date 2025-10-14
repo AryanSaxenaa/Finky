@@ -227,32 +227,20 @@ export const FinkyTheme = {
 
 // Helper functions for consistent styling
 export const createBrutalButton = (variant = 'primary') => ({
-  ...NeoBrutalism.components.button[variant],
-  ...NeoBrutalism.shadows.brutal,
+  ...FinkyTheme.components.button[variant],
+  ...FinkyTheme.shadows.brutal,
 });
 
 export const createBrutalCard = (variant = 'default') => ({
-  ...NeoBrutalism.components.card[variant],
-  ...NeoBrutalism.shadows.brutal,
+  ...FinkyTheme.components.card[variant],
+  ...FinkyTheme.shadows.brutal,
 });
 
 export const createBrutalInput = () => ({
-  ...NeoBrutalism.components.input.default,
-  ...NeoBrutalism.shadows.none,
+  ...FinkyTheme.components.input.default,
+  ...FinkyTheme.shadows.none,
 });
 
-export const brutalTextStyle = (size = 'body', weight = 'bold', color = 'black') => ({
-  fontSize: NeoBrutalism.typography[size],
-  fontWeight: NeoBrutalism.typography[weight],
-  color: NeoBrutalism.colors[color],
-  textTransform: 'uppercase', // Neo-Brutalism often uses uppercase
-  letterSpacing: 0.5,
-});
 
-// Predefined text styles for easy access
-brutalTextStyle.title = brutalTextStyle('h1', 'bold', 'white');
-brutalTextStyle.subtitle = brutalTextStyle('h6', 'medium', 'white');
-brutalTextStyle.body = brutalTextStyle('body', 'medium', 'white');
-brutalTextStyle.caption = brutalTextStyle('caption', 'medium', 'gray');
 // Export alias for backward compatibility
 export const NeoBrutalism = FinkyTheme;

@@ -1,6 +1,21 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { NeoBrutalism, createBrutalButton, createBrutalCard, brutalTextStyle } from '../styles/neoBrutalism';
+import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
+import { NeoBrutalism, createBrutalButton, createBrutalCard } from '../styles/neoBrutalism';
+
+// Text styling function
+export const brutalTextStyle = (size = 'body', weight = 'bold', color = 'black') => ({
+  fontSize: NeoBrutalism.typography[size],
+  fontWeight: NeoBrutalism.typography[weight],
+  color: NeoBrutalism.colors[color],
+  textTransform: 'uppercase', // Neo-Brutalism often uses uppercase
+  letterSpacing: 0.5,
+});
+
+// Predefined text styles for easy access
+brutalTextStyle.title = brutalTextStyle('h1', 'bold', 'white');
+brutalTextStyle.subtitle = brutalTextStyle('h6', 'medium', 'white');
+brutalTextStyle.body = brutalTextStyle('body', 'medium', 'white');
+brutalTextStyle.caption = brutalTextStyle('caption', 'medium', 'gray');
 
 // Neo-Brutalism Button Component
 export const BrutalButton = ({ 
@@ -207,6 +222,41 @@ export const BrutalHeader = ({
   );
 };
 
+// Neo-Brutalism Input Component
+export const BrutalInput = ({ 
+  placeholder, 
+  value, 
+  onChangeText, 
+  keyboardType = 'default',
+  style = {},
+  ...props 
+}) => {
+  return (
+    <TextInput
+      style={[
+        {
+          backgroundColor: NeoBrutalism.colors.white,
+          borderColor: NeoBrutalism.colors.black,
+          borderWidth: NeoBrutalism.borders.thick,
+          borderRadius: NeoBrutalism.borders.buttonRadius,
+          paddingVertical: 16,
+          paddingHorizontal: 16,
+          fontSize: NeoBrutalism.typography.body,
+          fontWeight: NeoBrutalism.typography.semiBold,
+          color: NeoBrutalism.colors.black,
+        },
+        style
+      ]}
+      placeholder={placeholder}
+      placeholderTextColor={NeoBrutalism.colors.gray}
+      value={value}
+      onChangeText={onChangeText}
+      keyboardType={keyboardType}
+      {...props}
+    />
+  );
+};
+
 // Neo-Brutalism Progress Bar
 export const BrutalProgressBar = ({ 
   progress, 
@@ -393,5 +443,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Re-export brutalTextStyle for easy access
-export { brutalTextStyle };
+

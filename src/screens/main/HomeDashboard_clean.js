@@ -23,9 +23,10 @@ import {
   BrutalStats, 
   BrutalIllustration, 
   BrutalHeader,
-  BrutalProgressBar 
+  BrutalProgressBar,
+  brutalTextStyle 
 } from '../../components/BrutalComponents';
-import { NeoBrutalism, brutalTextStyle } from '../../styles/neoBrutalism';
+import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const { width } = Dimensions.get('window');
 

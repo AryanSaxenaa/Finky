@@ -3,12 +3,13 @@ import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
-import { NeoBrutalism, brutalTextStyle } from '../../styles/neoBrutalism';
+import { NeoBrutalism } from '../../styles/neoBrutalism';
 import { 
   BrutalCard, 
   BrutalButton, 
   BrutalHeader,
-  BrutalIllustration 
+  BrutalIllustration,
+  brutalTextStyle 
 } from '../../components/BrutalComponents';
 
 const learningTopics = [
