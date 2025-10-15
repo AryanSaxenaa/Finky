@@ -81,7 +81,7 @@ export default function GameHome({ navigation }) {
       </Text>
       {!dailyChallenge.completed && (
         <BrutalButton
-          title="VIEW CHALLENGE"
+          title="CHALLENGE"
           onPress={() => navigation.navigate('DailyChallenge')}
           variant="primary"
           size="small"

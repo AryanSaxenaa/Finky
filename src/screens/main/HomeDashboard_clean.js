@@ -77,7 +77,7 @@ export default function HomeDashboard({ navigation }) {
     <SafeAreaView style={styles.safeArea}>
       <Layout style={styles.container}>
         <BrutalHeader 
-          title="FINPATH QUEST"
+          title="FINKY"
           leftAction={
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
               <Ionicons name="menu" size={24} color={NeoBrutalism.colors.black} />

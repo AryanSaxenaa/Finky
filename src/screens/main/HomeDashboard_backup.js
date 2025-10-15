@@ -80,7 +80,7 @@ export default function HomeDashboard({ navigation }) {
       <Layout style={styles.brutalContainer}>
         {/* Neo-Brutalism Header */}
         <BrutalHeader
-          title="FINPATH QUEST"
+          title="FINKY"
           subtitle="MASTER YOUR MONEY"
           backgroundColor="neonYellow"
           textColor="black"

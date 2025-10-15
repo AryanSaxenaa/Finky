@@ -157,7 +157,13 @@ export default function BudgetManagement({ navigation }) {
                 keyboardType="numeric"
                 placeholder="BUDGET LIMIT"
               />
-              <BrutalButton title="SAVE" size="small" variant="primary" onPress={handleSaveLimit} />
+              <BrutalButton 
+                title="SAVE" 
+                size="small" 
+                variant="primary" 
+                onPress={handleSaveLimit}
+                style={styles.saveButton}
+              />
               <BrutalButton 
                 title="CANCEL"
                 size="small" 
@@ -166,14 +172,16 @@ export default function BudgetManagement({ navigation }) {
                   setEditLimit(budget.limit.toString());
                   setIsEditing(false);
                 }}
+                style={styles.cancelButton}
               />
             </View>
           ) : (
             <BrutalButton 
-              title="EDIT BUDGET LIMIT"
+              title="EDIT LIMIT"
               size="small" 
               variant="secondary"
               onPress={() => setIsEditing(true)}
+              style={styles.editButton}
             />
           )}
         </View>
@@ -376,5 +384,16 @@ const styles = StyleSheet.create({
   modalButton: {
     flex: 1,
     marginHorizontal: 4,
+  },
+  saveButton: {
+    flex: 0.3,
+    marginRight: NeoBrutalism.spacing.xs,
+  },
+  cancelButton: {
+    flex: 0.4,
+    marginLeft: NeoBrutalism.spacing.xs,
+  },
+  editButton: {
+    alignSelf: 'flex-start',
   },
 });

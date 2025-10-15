@@ -150,7 +150,7 @@ export default function AddExpenseModal({ visible, onClose }) {
               onPress={onClose}
             />
             <BrutalButton
-              title="💾 SAVE"
+              title="SAVE"
               style={styles.button}
               onPress={handleSave}
               disabled={!amount || selectedCategoryIndex === null}

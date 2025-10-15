@@ -29,14 +29,14 @@ const AIGuardianModal = ({ isVisible, aiMessage, onConfirm, onCancel }) => {
 
           <View style={styles.buttonContainer}>
             <BrutalButton
-              title="Cancel & Save"
+              title="Save"
               onPress={onCancel}
               style={[styles.button, styles.saveButton]}
               textStyle={styles.saveButtonText}
             />
             
             <BrutalButton
-              title="Confirm Payment"
+              title="Pay Now"
               onPress={onConfirm}
               style={[styles.button, styles.confirmButton]}
               textStyle={styles.confirmButtonText}

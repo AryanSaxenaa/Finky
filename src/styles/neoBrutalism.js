@@ -58,7 +58,7 @@ export const FinkyTheme = {
     h6: 16,
     body: 14,
     caption: 12,
-    button: 16,
+    button: 14, // Reduced from 16 to prevent overflow
     
     // Font Weights
     bold: '900', // Extra bold for Neo-Brutalism
@@ -113,32 +113,32 @@ export const FinkyTheme = {
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 2,
-        paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
       },
       secondary: {
         backgroundColor: '#FFFFFF',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 2,
-        paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
       },
       danger: {
         backgroundColor: '#FF0000',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 2,
-        paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
       },
       success: {
         backgroundColor: '#39FF14',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 2,
-        paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
       },
     },
 

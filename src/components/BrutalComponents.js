@@ -44,10 +44,15 @@ export const BrutalButton = ({
     >
       <View style={styles.buttonContent}>
         {icon && <View style={styles.buttonIcon}>{icon}</View>}
-        <Text style={[
-          brutalTextStyle('button', 'bold', 'black'),
-          textStyle
-        ]}>
+        <Text 
+          style={[
+            brutalTextStyle('button', 'bold', 'black'),
+            textStyle
+          ]}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
+          minimumFontScale={0.8}
+        >
           {buttonText ? buttonText.toString().toUpperCase() : ''}
         </Text>
       </View>
@@ -337,9 +342,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: NeoBrutalism.spacing.xs,
+    minHeight: 40,
   },
   buttonIcon: {
-    marginRight: NeoBrutalism.spacing.sm,
+    marginRight: NeoBrutalism.spacing.xs,
+    flexShrink: 0,
   },
 
   // Card Styles

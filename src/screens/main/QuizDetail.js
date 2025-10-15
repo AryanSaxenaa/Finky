@@ -194,7 +194,7 @@ export default function QuizDetail({ navigation, route }) {
             </View>
 
             <BrutalButton 
-              title="💥 SUBMIT ANSWER"
+              title="SUBMIT"
               style={styles.submitButton}
               disabled={selectedAnswer === null}
               onPress={handleSubmitAnswer}
@@ -214,7 +214,7 @@ export default function QuizDetail({ navigation, route }) {
             <BrutalButton 
               style={styles.backToLearningButton}
               onPress={() => navigation.goBack()}
-              title="Back to Learning Hub"
+              title="Back to Hub"
               variant="primary"
             />
           </BrutalCard>

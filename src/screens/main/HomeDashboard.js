@@ -79,7 +79,7 @@ export default function HomeDashboard({ navigation }) {
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <Layout style={styles.container}>
         <BrutalHeader 
-          title="      FINPATH QUEST"
+          title="FINKY"
           textColor="white"
           rightAction={
             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
@@ -249,7 +249,7 @@ export default function HomeDashboard({ navigation }) {
             />
 
             <BrutalButton
-              title="VIEW HISTORY"
+              title="HISTORY"
               onPress={() => navigation.navigate('ExpenseHistory')}
               variant="secondary"
               style={styles.viewHistoryButton}
@@ -344,7 +344,7 @@ export default function HomeDashboard({ navigation }) {
           </View>
 
           <BrutalButton
-            title="MANAGE BUDGETS"
+            title="BUDGETS"
             onPress={() => navigation.navigate('BudgetManagement')}
             variant="secondary"
             style={styles.addBudgetButton}
@@ -410,7 +410,8 @@ const styles = StyleSheet.create({
   // Chart Styles
   brutalChartSection: {
     alignItems: 'center',
-    marginVertical: NeoBrutalism.spacing.lg, // Increased from sm to lg for more space
+    marginTop: NeoBrutalism.spacing.md,
+    marginBottom: NeoBrutalism.spacing.sm, // Reduced gap after chart
   },
   chartWrapper: {
     position: 'relative',
@@ -479,7 +480,8 @@ const styles = StyleSheet.create({
   
   // Legend
   categoryLegend: {
-    marginVertical: NeoBrutalism.spacing.sm, // Reduced from md to sm
+    marginTop: NeoBrutalism.spacing.xs, // Reduced gap from chart
+    marginBottom: NeoBrutalism.spacing.md,
   },
   legendTitle: {
     marginBottom: NeoBrutalism.spacing.sm, // Reduced from md to sm
@@ -513,15 +515,16 @@ const styles = StyleSheet.create({
   actionButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: NeoBrutalism.spacing.lg,
+    marginVertical: NeoBrutalism.spacing.md,
+    gap: NeoBrutalism.spacing.xs, // Add gap between buttons
   },
   addExpenseButton: {
     flex: 1,
-    marginRight: NeoBrutalism.spacing.sm,
+    minHeight: 48, // Ensure minimum height for text
   },
   viewHistoryButton: {
     flex: 1,
-    marginLeft: NeoBrutalism.spacing.sm,
+    minHeight: 48, // Ensure minimum height for text
   },
   
   // Budget Section

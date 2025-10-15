@@ -67,7 +67,7 @@ export default function LearningHub({ navigation }) {
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.container}>
         <BrutalHeader 
-          title="       LEARNING HUB"
+          title="LEARNING HUB"
           textColor="white"
           rightAction={
             <View style={styles.tokenBadge}>

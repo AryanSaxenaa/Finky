@@ -86,7 +86,7 @@ const UpiPaymentScreen = ({ navigation }) => {
         />
         
         <BrutalButton 
-          title="Proceed to Pay" 
+          title="Proceed" 
           onPress={handleProceed}
           style={styles.proceedButton}
         />
