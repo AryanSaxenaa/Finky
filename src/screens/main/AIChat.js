@@ -152,7 +152,7 @@ export default function AIChat({ navigation }) {
           </View>
         </View>
         <Text style={[
-          brutalTextStyle('body', 'medium', 'black'),
+          brutalTextStyle('body', 'medium', msg.sender === 'user' ? 'white' : 'black'),
           styles.messageText
         ]}>
           {msg.text}
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     backgroundColor: NeoBrutalism.colors.electricBlue,
   },
   aiMessage: {
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.neonGreen,
   },
   messageHeader: {
     marginBottom: NeoBrutalism.spacing.xs,

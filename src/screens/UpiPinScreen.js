@@ -1,42 +1,95 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BrutalHeader } from '../components/BrutalComponents';
 import { useExpenseStore } from '../store';
 import { FinkyTheme } from '../styles/neoBrutalism';
+import UpiService from '../services/upiService';
 
 const UpiPinScreen = ({ route, navigation }) => {
-  const { recipient, amount, note } = route.params;
+  const { recipient, amount, note, orderId, orderData } = route.params;
   const [pin, setPin] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
   const { addExpense } = useExpenseStore();
 
   useEffect(() => {
-    if (pin.length === 4) {
-      setTimeout(() => {
+    if (pin.length === 4 && !isProcessing) {
+      processUpiPayment();
+    }
+  }, [pin]);
+
+  const processUpiPayment = async () => {
+    setIsProcessing(true);
+    
+    try {
+      console.log('🔐 Processing UPI payment with PIN...');
+      
+      // Simulate PIN validation delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Process payment through UPI service
+      const result = await UpiService.processPayment(
+        parseFloat(amount),
+        recipient,
+        `finky_${Date.now()}`
+      );
+
+      if (result.success) {
+        // Create transaction record
         const newTransaction = {
-          id: new Date().toISOString(),
-          description: `Paid to ${recipient}`,
+          id: result.payment.id,
+          description: `UPI Payment to ${recipient}`,
           amount: parseFloat(amount),
           category: 'UPI Payment',
           date: new Date().toISOString().split('T')[0],
           note: note || '',
           merchant: recipient,
+          paymentMethod: 'UPI',
+          orderId: result.order.id,
+          status: 'completed'
         };
         
         addExpense(newTransaction);
-        navigation.replace('PaymentSuccess', { transaction: newTransaction });
-      }, 500);
+        navigation.replace('PaymentSuccess', { 
+          transaction: newTransaction,
+          paymentResult: result 
+        });
+      } else {
+        // Payment failed
+        Alert.alert(
+          'Payment Failed',
+          result.error || 'The payment could not be processed. Please try again.',
+          [
+            { text: 'Retry', onPress: () => { setPin(''); setIsProcessing(false); } },
+            { text: 'Cancel', onPress: () => navigation.goBack() }
+          ]
+        );
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      console.error('UPI payment processing error:', error);
+      Alert.alert(
+        'Payment Error',
+        'An error occurred while processing your payment. Please try again.',
+        [
+          { text: 'Retry', onPress: () => { setPin(''); setIsProcessing(false); } },
+          { text: 'Cancel', onPress: () => navigation.goBack() }
+        ]
+      );
+      setIsProcessing(false);
     }
-  }, [pin]);
+  };
 
   const handleNumberPress = (number) => {
-    if (pin.length < 4) {
+    if (pin.length < 4 && !isProcessing) {
       setPin(prev => prev + number);
     }
   };
 
   const handleBackspace = () => {
-    setPin(prev => prev.slice(0, -1));
+    if (!isProcessing) {
+      setPin(prev => prev.slice(0, -1));
+    }
   };
 
   const renderPinDots = () => {
@@ -81,9 +134,12 @@ const UpiPinScreen = ({ route, navigation }) => {
                     handleNumberPress(number.toString());
                   }
                 }}
-                disabled={number === ''}
+                disabled={number === '' || isProcessing}
               >
-                <Text style={styles.numberText}>{number}</Text>
+                <Text style={[
+                  styles.numberText,
+                  isProcessing && styles.disabledText
+                ]}>{number}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -104,8 +160,18 @@ const UpiPinScreen = ({ route, navigation }) => {
         </View>
 
         <View style={styles.pinSection}>
-          <Text style={styles.pinLabel}>Enter your 4-digit UPI PIN</Text>
+          <Text style={styles.pinLabel}>
+            {isProcessing ? 'Processing Payment...' : 'Enter your 4-digit UPI PIN'}
+          </Text>
           {renderPinDots()}
+          {isProcessing && (
+            <View style={styles.processingContainer}>
+              <ActivityIndicator size="large" color={FinkyTheme.colors.primary} />
+              <Text style={styles.processingText}>
+                Connecting to UPI network...
+              </Text>
+            </View>
+          )}
         </View>
 
         {renderNumberPad()}
@@ -191,6 +257,18 @@ const styles = StyleSheet.create({
     fontSize: FinkyTheme.typography.h3,
     fontWeight: FinkyTheme.typography.bold,
     color: FinkyTheme.colors.text,
+  },
+  processingContainer: {
+    alignItems: 'center',
+    marginTop: FinkyTheme.spacing.lg,
+  },
+  processingText: {
+    fontSize: FinkyTheme.typography.body,
+    color: FinkyTheme.colors.gray,
+    marginTop: FinkyTheme.spacing.sm,
+  },
+  disabledText: {
+    opacity: 0.5,
   },
 });
 

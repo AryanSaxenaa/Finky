@@ -6,7 +6,7 @@ import { BrutalButton } from '../components/BrutalComponents';
 import { FinkyTheme } from '../styles/neoBrutalism';
 
 const PaymentSuccessScreen = ({ route, navigation }) => {
-  const { transaction } = route.params;
+  const { transaction, paymentResult } = route.params;
 
   const handleDone = () => {
     navigation.navigate('HomeTab');
@@ -28,13 +28,16 @@ const PaymentSuccessScreen = ({ route, navigation }) => {
         <View style={styles.transactionDetails}>
           <Text style={styles.amountText}>₹{transaction.amount}</Text>
           <Text style={styles.recipientText}>
-            Paid to {transaction.merchant}
+            UPI Payment to {transaction.merchant}
           </Text>
           {transaction.note && (
             <Text style={styles.noteText}>"{transaction.note}"</Text>
           )}
+          <Text style={styles.methodText}>
+            Payment Method: {transaction.paymentMethod || 'UPI'}
+          </Text>
           <Text style={styles.dateText}>
-            {new Date(transaction.date).toLocaleDateString('en-IN', {
+            {new Date().toLocaleDateString('en-IN', {
               day: 'numeric',
               month: 'long',
               year: 'numeric',
@@ -45,10 +48,18 @@ const PaymentSuccessScreen = ({ route, navigation }) => {
         </View>
 
         <View style={styles.transactionId}>
-          <Text style={styles.transactionIdLabel}>Transaction ID</Text>
+          <Text style={styles.transactionIdLabel}>UPI Transaction ID</Text>
           <Text style={styles.transactionIdValue}>
-            {transaction.id.substring(0, 16)}...
+            {transaction.id}
           </Text>
+          {transaction.orderId && (
+            <>
+              <Text style={styles.transactionIdLabel}>Order ID</Text>
+              <Text style={styles.transactionIdValue}>
+                {transaction.orderId}
+              </Text>
+            </>
+          )}
         </View>
 
         <BrutalButton
@@ -112,6 +123,12 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: FinkyTheme.typography.caption,
     color: FinkyTheme.colors.gray,
+  },
+  methodText: {
+    fontSize: FinkyTheme.typography.body,
+    color: FinkyTheme.colors.primary,
+    fontWeight: FinkyTheme.typography.semiBold,
+    marginBottom: FinkyTheme.spacing.xs,
   },
   transactionId: {
     alignItems: 'center',

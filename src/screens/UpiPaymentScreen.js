@@ -5,6 +5,7 @@ import { BrutalHeader, BrutalInput, BrutalButton } from '../components/BrutalCom
 import AIGuardianModal from '../components/AIGuardianModal';
 import { useGameStore } from '../store';
 import { FinkyTheme } from '../styles/neoBrutalism';
+import UpiService from '../services/upiService';
 
 const UpiPaymentScreen = ({ navigation }) => {
   const [recipient, setRecipient] = useState('');
@@ -26,26 +27,51 @@ const UpiPaymentScreen = ({ navigation }) => {
       return;
     }
 
+    // Validate UPI ID format
+    if (!UpiService.isValidVPA(recipient)) {
+      Alert.alert('Invalid UPI ID', 'Please enter a valid UPI ID (e.g., user@paytm)');
+      return;
+    }
+
     setModalVisible(true);
     
-    // Simulate AI analysis
+    // AI analysis with UPI context
     const amountNum = parseFloat(amount);
     let response = '';
     
     if (amountNum > 500) {
-      response = `This ₹${amount} payment is quite significant. Have you considered if this aligns with your financial goals? You could save this amount instead and earn rewards!`;
+      response = `This ₹${amount} UPI payment is quite significant. Have you considered if this aligns with your financial goals? You could save this amount instead and earn rewards!`;
     } else if (amountNum > 100) {
-      response = `₹${amount} for this payment - is this a priority expense right now? Saving this could boost your Finky score!`;
+      response = `₹${amount} for this UPI payment - is this a priority expense right now? Saving this could boost your Finky score!`;
     } else {
       response = `₹${amount} is a small amount, but every rupee saved counts towards your financial wellness. Consider if this purchase is necessary.`;
+    }
+    
+    // Add sandbox testing hint
+    if (recipient.includes('@razorpay')) {
+      response += `\n\n💡 Using sandbox UPI ID: ${recipient}`;
     }
     
     setAiResponse(response);
   };
 
-  const onConfirmPayment = () => {
+  const onConfirmPayment = async () => {
     setModalVisible(false);
-    navigation.navigate('UpiPin', { recipient, amount, note });
+    
+    // Create UPI order first
+    try {
+      const order = await UpiService.createOrder(parseFloat(amount), `finky_${Date.now()}`);
+      navigation.navigate('UpiPin', { 
+        recipient, 
+        amount, 
+        note, 
+        orderId: order.id,
+        orderData: order 
+      });
+    } catch (error) {
+      Alert.alert('Error', 'Failed to create payment order. Please try again.');
+      console.error('Order creation failed:', error);
+    }
   };
 
   const onCancelAndSave = () => {
@@ -69,6 +95,12 @@ const UpiPaymentScreen = ({ navigation }) => {
           onChangeText={setRecipient}
           style={styles.input}
         />
+        
+        <View style={styles.testHint}>
+          <Text style={styles.testHintText}>
+            💡 Test UPI IDs: success@razorpay, failure@razorpay
+          </Text>
+        </View>
         
         <BrutalInput 
           placeholder="Amount (₹)" 
@@ -116,6 +148,17 @@ const styles = StyleSheet.create({
   },
   proceedButton: {
     marginTop: FinkyTheme.spacing.lg,
+  },
+  testHint: {
+    backgroundColor: FinkyTheme.colors.background,
+    padding: FinkyTheme.spacing.sm,
+    borderRadius: FinkyTheme.borders.buttonRadius,
+    marginBottom: FinkyTheme.spacing.sm,
+  },
+  testHintText: {
+    fontSize: FinkyTheme.typography.caption,
+    color: FinkyTheme.colors.gray,
+    textAlign: 'center',
   },
 });
 

@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: UPI Sandbox API
+  description: >
+    Mock UPI Payment Sandbox API for hackathons — inspired by Razorpay and Cashfree.
+    This API simulates UPI payment creation, success/failure, and status retrieval
+    without needing real banking credentials.
+  version: 1.0.0
+servers:
+  - url: https://sandbox.upi.example.com/v1
+    description: UPI Sandbox Server (Mock)
+
+tags:
+  - name: Orders
+    description: Create and manage mock UPI orders
+  - name: Payments
+    description: Initiate and check simulated UPI payments
+  - name: Webhooks
+    description: Handle simulated webhook notifications
+
+paths:
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Create a mock UPI order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+                  example: 1000
+                  description: Amount in paise (₹10 = 1000)
+                currency:
+                  type: string
+                  example: INR
+                receipt:
+                  type: string
+                  example: rcpt_12345
+                payment_capture:
+                  type: integer
+                  enum: [0, 1]
+                  default: 1
+      responses:
+        '200':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string, example: order_Ln6G8mT4Hh12aZ }
+                  amount: { type: integer, example: 1000 }
+                  currency: { type: string, example: INR }
+                  status: { type: string, example: created }
+
+  /payments:
+    post:
+      tags: [Payments]
+      summary: Simulate a UPI payment (Collect / Intent)
+      description: >
+        Create a UPI payment request linked to an existing order.
+        Use `success@razorpay` for a successful mock, `failure@razorpay` for failed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+                  example: 1000
+                currency:
+                  type: string
+                  example: INR
+                order_id:
+                  type: string
+                  example: order_Ln6G8mT4Hh12aZ
+                vpa:
+                  type: string
+                  example: success@razorpay
+                method:
+                  type: string
+                  example: upi
+      responses:
+        '200':
+          description: Payment simulated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string, example: pay_Ln6Jb0YAz8Sx5p }
+                  entity: { type: string, example: payment }
+                  status: { type: string, example: captured }
+                  method: { type: string, example: upi }
+                  vpa: { type: string, example: success@razorpay }
+
+  /payments/{payment_id}:
+    get:
+      tags: [Payments]
+      summary: Fetch payment status
+      parameters:
+        - in: path
+          name: payment_id
+          required: true
+          schema:
+            type: string
+          example: pay_Ln6Jb0YAz8Sx5p
+      responses:
+        '200':
+          description: Current payment status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string, example: pay_Ln6Jb0YAz8Sx5p }
+                  status: { type: string, example: captured }
+                  amount: { type: integer, example: 1000 }
+                  method: { type: string, example: upi }
+
+  /webhook/payment:
+    post:
+      tags: [Webhooks]
+      summary: Mock webhook callback
+      description: >
+        Simulates the webhook callback that a PSP would send after payment capture.
+        Use this endpoint to test webhook handling in your backend.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  type: string
+                  example: payment.captured
+                payload:
+                  type: object
+                  properties:
+                    payment:
+                      type: object
+                      properties:
+                        entity:
+                          type: object
+                          properties:
+                            id: { type: string, example: pay_Ln6Jb0YAz8Sx5p }
+                            status: { type: string, example: captured }
+      responses:
+        '200':
+          description: Webhook received successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  received:
+                    type: boolean
+                    example: true
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid request

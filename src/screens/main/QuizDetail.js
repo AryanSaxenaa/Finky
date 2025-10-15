@@ -3,11 +3,11 @@ import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
-import { 
-  BrutalCard, 
-  BrutalButton, 
+import {
+  BrutalCard,
+  BrutalButton,
   BrutalHeader,
-  brutalTextStyle 
+  brutalTextStyle
 } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
 
@@ -132,9 +132,9 @@ export default function QuizDetail({ navigation, route }) {
   };
 
   const renderBackAction = () => (
-    <TopNavigationAction 
-      icon={BackIcon} 
-      onPress={() => navigation.goBack()} 
+    <TopNavigationAction
+      icon={BackIcon}
+      onPress={() => navigation.goBack()}
     />
   );
 
@@ -150,77 +150,77 @@ export default function QuizDetail({ navigation, route }) {
             </TouchableOpacity>
           }
         />
-      
-      <ScrollView style={styles.content}>
-        {currentStep === 'content' && (
-          <BrutalCard style={styles.contentCard}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>📚 LEARNING CONTENT</Text>
-            {topicData.content.map((point, index) => (
-              <View key={index} style={styles.contentPoint}>
-                <Text style={brutalTextStyle('body', 'bold', 'black')}>•</Text>
-                <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.contentText]}>{point.toUpperCase()}</Text>
-              </View>
-            ))}
-            <BrutalButton 
-              title="🚀 START QUIZ"
-              style={styles.startQuizButton}
-              onPress={handleStartQuiz}
-            />
-          </BrutalCard>
-        )}
 
-        {currentStep === 'quiz' && (
-          <BrutalCard style={styles.quizCard}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>🧠 QUIZ QUESTION</Text>
-            <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.questionText]}>
-              {topicData.quiz.question.toUpperCase()}
-            </Text>
-            
-            <View style={styles.optionsContainer}>
-              {topicData.quiz.options.map((option, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.optionButton,
-                    selectedAnswer === index && styles.selectedOption
-                  ]}
-                  onPress={() => handleAnswerSelect(index)}
-                >
-                  <Text style={brutalTextStyle('body', 'medium', 'black')}>
-                    {option.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
+        <ScrollView style={styles.content}>
+          {currentStep === 'content' && (
+            <BrutalCard style={styles.contentCard}>
+              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>📚 LEARNING CONTENT</Text>
+              {topicData.content.map((point, index) => (
+                <View key={index} style={styles.contentPoint}>
+                  <Text style={brutalTextStyle('body', 'bold', 'black')}>•</Text>
+                  <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.contentText]}>{point.toUpperCase()}</Text>
+                </View>
               ))}
-            </View>
+              <BrutalButton
+                title="🚀 START QUIZ"
+                style={styles.startQuizButton}
+                onPress={handleStartQuiz}
+              />
+            </BrutalCard>
+          )}
 
-            <BrutalButton 
-              title="SUBMIT"
-              style={styles.submitButton}
-              disabled={selectedAnswer === null}
-              onPress={handleSubmitAnswer}
-            />
-          </BrutalCard>
-        )}
+          {currentStep === 'quiz' && (
+            <BrutalCard style={styles.quizCard}>
+              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>🧠 QUIZ QUESTION</Text>
+              <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.questionText]}>
+                {topicData.quiz.question.toUpperCase()}
+              </Text>
 
-        {currentStep === 'completed' && (
-          <BrutalCard style={styles.completedCard}>
-            <Text category='h5' style={styles.completedTitle}>🎉 Topic Completed!</Text>
-            <Text category='p1' style={styles.completedText}>
-              Congratulations! You've successfully completed {topicData.title}.
-            </Text>
-            <Text category='p2' style={styles.tokenEarned}>
-              Tokens Earned: +{topic.tokenReward} AI Tokens
-            </Text>
-            <BrutalButton 
-              style={styles.backToLearningButton}
-              onPress={() => navigation.goBack()}
-              title="Back to Hub"
-              variant="primary"
-            />
-          </BrutalCard>
-        )}
-      </ScrollView>
-    </View>
+              <View style={styles.optionsContainer}>
+                {topicData.quiz.options.map((option, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.optionButton,
+                      selectedAnswer === index && styles.selectedOption
+                    ]}
+                    onPress={() => handleAnswerSelect(index)}
+                  >
+                    <Text style={brutalTextStyle('body', 'medium', 'black')}>
+                      {option.toUpperCase()}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <BrutalButton
+                title="SUBMIT"
+                style={styles.submitButton}
+                disabled={selectedAnswer === null}
+                onPress={handleSubmitAnswer}
+              />
+            </BrutalCard>
+          )}
+
+          {currentStep === 'completed' && (
+            <BrutalCard style={styles.completedCard}>
+              <Text category='h5' style={styles.completedTitle}>🎉 Topic Completed!</Text>
+              <Text category='p1' style={styles.completedText}>
+                Congratulations! You've successfully completed {topicData.title}.
+              </Text>
+              <Text category='p2' style={styles.tokenEarned}>
+                Tokens Earned: +{topic.tokenReward} AI Tokens
+              </Text>
+              <BrutalButton
+                style={styles.backToLearningButton}
+                onPress={() => navigation.goBack()}
+                title="Back to Hub"
+                variant="primary"
+              />
+            </BrutalCard>
+          )}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
