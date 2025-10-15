@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import { 
-  Layout, 
-  Text, 
-  Input
-} from '@ui-kitten/components';
+import { useState } from 'react';
+import { View, StyleSheet, Alert, TouchableOpacity, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '../../store';
@@ -14,9 +9,6 @@ import {
   brutalTextStyle 
 } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
-
-const EyeIcon = (props) => <Ionicons name="eye-outline" size={24} color="#8F9BB3" />;
-const EyeOffIcon = (props) => <Ionicons name="eye-off-outline" size={24} color="#8F9BB3" />;
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -45,68 +37,73 @@ export default function LoginScreen({ navigation }) {
     }, 1000);
   };
 
-  const renderIcon = (props) => (
-    <Ionicons name={secureTextEntry ? 'eye-off-outline' : 'eye-outline'} size={24} color="#8F9BB3" />
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={[brutalTextStyle.title, styles.title]}>WELCOME BACK!</Text>
-        <Text style={[brutalTextStyle.body, styles.subtitle]}>LOG IN TO DOMINATE YOUR FINANCES</Text>
+        <Text style={[brutalTextStyle('h1', 'bold', 'black'), styles.title]}>WELCOME BACK!</Text>
+        <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.subtitle]}>LOG IN TO DOMINATE YOUR FINANCES</Text>
 
         <BrutalCard style={styles.formContainer}>
-          <Input
-            style={styles.input}
-            placeholder='EMAIL ADDRESS'
-            value={email}
-            onChangeText={setEmail}
-            keyboardType='email-address'
-            autoCapitalize='none'
-            textStyle={styles.inputText}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder='EMAIL ADDRESS'
+              value={email}
+              onChangeText={setEmail}
+              keyboardType='email-address'
+              autoCapitalize='none'
+              placeholderTextColor={NeoBrutalism.colors.gray}
+            />
+          </View>
 
-          <Input
-            style={styles.input}
-            placeholder='PASSWORD'
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={secureTextEntry}
-            accessoryRight={renderIcon}
-            onTouchEnd={toggleSecureEntry}
-            textStyle={styles.inputText}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.passwordInput]}
+              placeholder='PASSWORD'
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={secureTextEntry}
+              placeholderTextColor={NeoBrutalism.colors.gray}
+            />
+            <TouchableOpacity 
+              style={styles.eyeIcon}
+              onPress={toggleSecureEntry}
+            >
+              <Ionicons 
+                name={secureTextEntry ? 'eye-off-outline' : 'eye-outline'} 
+                size={24} 
+                color={NeoBrutalism.colors.gray} 
+              />
+            </TouchableOpacity>
+          </View>
 
           <BrutalButton
+            title={loading ? 'LOGGING IN...' : 'LOG IN'}
             style={styles.loginButton}
             onPress={handleLogin}
             disabled={loading}
-          >
-            {loading ? 'LOGGING IN...' : 'LOG IN'}
-          </BrutalButton>
+          />
 
           <BrutalButton
+            title="FORGOT PASSWORD?"
             style={styles.forgotButton}
             variant="secondary"
             onPress={() => Alert.alert('INFO', 'Forgot password functionality coming soon!')}
-          >
-            FORGOT PASSWORD?
-          </BrutalButton>
+          />
         </BrutalCard>
 
         <View style={styles.divider} />
 
         <View style={styles.registerContainer}>
-          <Text style={[brutalTextStyle.body, styles.registerText]}>
+          <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.registerText]}>
             DON'T HAVE AN ACCOUNT?
           </Text>
           <BrutalButton
+            title="SIGN UP"
             style={styles.registerButton}
-            variant="outline"
+            variant="secondary"
             onPress={() => navigation.navigate('Register')}
-          >
-            SIGN UP
-          </BrutalButton>
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -116,73 +113,73 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: NeoBrutalism.spacing.lg,
     justifyContent: 'center',
     paddingTop: 60,
     paddingBottom: 40,
   },
   title: {
     textAlign: 'center',
-    marginBottom: 8,
-    color: NeoBrutalism.colors.black,
-    fontSize: 32,
-    fontWeight: '900',
+    marginBottom: NeoBrutalism.spacing.sm,
     textShadowColor: NeoBrutalism.colors.neonYellow,
     textShadowOffset: { width: 3, height: 3 },
     textShadowRadius: 0,
   },
   subtitle: {
     textAlign: 'center',
-    marginBottom: 40,
-    color: NeoBrutalism.colors.black,
-    fontSize: 16,
-    fontWeight: '700',
+    marginBottom: NeoBrutalism.spacing.xl,
   },
   formContainer: {
-    padding: 24,
-    marginBottom: 30,
+    padding: NeoBrutalism.spacing.lg,
+    marginBottom: NeoBrutalism.spacing.xl,
     backgroundColor: NeoBrutalism.colors.lightGray,
   },
+  inputContainer: {
+    position: 'relative',
+    marginBottom: NeoBrutalism.spacing.lg,
+  },
   input: {
-    marginBottom: 20,
     backgroundColor: NeoBrutalism.colors.white,
-    borderWidth: 3,
+    borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
     borderRadius: 0,
-  },
-  inputText: {
-    color: NeoBrutalism.colors.black,
+    padding: NeoBrutalism.spacing.md,
     fontSize: 16,
     fontWeight: '600',
+    color: NeoBrutalism.colors.black,
+  },
+  passwordInput: {
+    paddingRight: 50,
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: NeoBrutalism.spacing.md,
+    top: NeoBrutalism.spacing.md,
   },
   loginButton: {
-    marginTop: 10,
-    marginBottom: 15,
+    marginTop: NeoBrutalism.spacing.md,
+    marginBottom: NeoBrutalism.spacing.md,
   },
   forgotButton: {
-    marginBottom: 10,
+    marginBottom: NeoBrutalism.spacing.sm,
   },
   divider: {
-    height: 3,
-    backgroundColor: NeoBrutalism.colors.neonPink,
-    marginVertical: 30,
-    borderRadius: 0,
+    height: NeoBrutalism.borders.thick,
+    backgroundColor: NeoBrutalism.colors.hotPink,
+    marginVertical: NeoBrutalism.spacing.xl,
   },
   registerContainer: {
     alignItems: 'center',
   },
   registerText: {
     textAlign: 'center',
-    color: NeoBrutalism.colors.black,
-    marginBottom: 15,
-    fontSize: 16,
-    fontWeight: '700',
+    marginBottom: NeoBrutalism.spacing.md,
   },
   registerButton: {
-    paddingHorizontal: 30,
+    paddingHorizontal: NeoBrutalism.spacing.xl,
   },
 });

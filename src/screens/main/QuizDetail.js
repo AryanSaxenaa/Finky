@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,8 +10,6 @@ import {
   brutalTextStyle
 } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
-
-const BackIcon = (props) => <Ionicons name="arrow-back" size={24} color="black" />;
 
 const topicContent = {
   1: {
@@ -131,12 +129,7 @@ export default function QuizDetail({ navigation, route }) {
     }
   };
 
-  const renderBackAction = () => (
-    <TopNavigationAction
-      icon={BackIcon}
-      onPress={() => navigation.goBack()}
-    />
-  );
+
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -204,18 +197,17 @@ export default function QuizDetail({ navigation, route }) {
 
           {currentStep === 'completed' && (
             <BrutalCard style={styles.completedCard}>
-              <Text category='h5' style={styles.completedTitle}>🎉 Topic Completed!</Text>
-              <Text category='p1' style={styles.completedText}>
-                Congratulations! You've successfully completed {topicData.title}.
+              <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.completedTitle]}>🎉 TOPIC COMPLETED!</Text>
+              <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.completedText]}>
+                CONGRATULATIONS! YOU'VE SUCCESSFULLY COMPLETED {topicData.title.toUpperCase()}.
               </Text>
-              <Text category='p2' style={styles.tokenEarned}>
-                Tokens Earned: +{topic.tokenReward} AI Tokens
+              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.tokenEarned]}>
+                TOKENS EARNED: +{topic.tokenReward} AI TOKENS
               </Text>
               <BrutalButton
                 style={styles.backToLearningButton}
                 onPress={() => navigation.goBack()}
-                title="Back to Hub"
-                variant="primary"
+                title="BACK TO HUB"
               />
             </BrutalCard>
           )}
@@ -228,11 +220,11 @@ export default function QuizDetail({ navigation, route }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,

@@ -174,7 +174,7 @@ export default function GameHome({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,

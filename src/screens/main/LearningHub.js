@@ -124,11 +124,17 @@ export default function LearningHub({ navigation }) {
                   </View>
                 </View>
                 
-                <Text style={brutalTextStyle('h6', 'bold', 'black')}>
+                <Text 
+                  style={[brutalTextStyle('h6', 'bold', 'black'), styles.topicTitle]}
+                  numberOfLines={2}
+                >
                   {topic.title.toUpperCase()}
                 </Text>
                 
-                <Text style={[brutalTextStyle('caption', 'medium', 'gray'), styles.topicDescription]}>
+                <Text 
+                  style={[brutalTextStyle('caption', 'medium', 'gray'), styles.topicDescription]}
+                  numberOfLines={3}
+                >
                   {topic.description.toUpperCase()}
                 </Text>
                 
@@ -153,11 +159,11 @@ export default function LearningHub({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,
@@ -232,9 +238,14 @@ const styles = StyleSheet.create({
     borderWidth: NeoBrutalism.borders.medium,
     borderColor: NeoBrutalism.colors.black,
   },
+  topicTitle: {
+    marginBottom: NeoBrutalism.spacing.xs,
+    lineHeight: 18,
+  },
   topicDescription: {
-    marginBottom: NeoBrutalism.spacing.sm, // Reduced from md
-    lineHeight: 20,
+    marginBottom: NeoBrutalism.spacing.sm,
+    lineHeight: 16,
+    minHeight: 40,
   },
   topicButton: {
     marginTop: NeoBrutalism.spacing.sm,

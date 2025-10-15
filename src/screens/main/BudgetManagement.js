@@ -83,32 +83,37 @@ export default function BudgetManagement({ navigation }) {
             <View 
               style={[styles.categoryDot, { backgroundColor: budget.color }]} 
             />
-            <Text style={brutalTextStyle('h6', 'bold', 'black')}>
-              {budget.category.toUpperCase()}
+            <View style={styles.categoryTextContainer}>
+              <Text 
+                style={[brutalTextStyle('h6', 'bold', 'black'), styles.categoryName]}
+                numberOfLines={1}
+              >
+                {budget.category.toUpperCase()}
+              </Text>
+            </View>
+          </View>
+          <View style={[
+            styles.statusBadge,
+            { backgroundColor: budget.isOverBudget ? NeoBrutalism.colors.hotPink : NeoBrutalism.colors.neonGreen }
+          ]}>
+            <Text 
+              style={[
+                brutalTextStyle('caption', 'bold', budget.isOverBudget ? 'white' : 'black'),
+                styles.statusText
+              ]}
+            >
+              {budget.isOverBudget ? 'OVER' : 'OK'}
             </Text>
           </View>
-          <Text 
-            style={[
-              brutalTextStyle('caption', 'bold', budget.isOverBudget ? 'white' : 'black'),
-              styles.statusText,
-              { 
-                backgroundColor: budget.isOverBudget ? NeoBrutalism.colors.hotPink : NeoBrutalism.colors.neonGreen,
-                paddingHorizontal: NeoBrutalism.spacing.sm,
-                paddingVertical: NeoBrutalism.spacing.xs
-              }
-            ]}
-          >
-            {budget.isOverBudget ? 'OVER BUDGET' : 'ON TRACK'}
-          </Text>
         </View>
 
         <View style={styles.amountSection}>
           <View style={styles.amountRow}>
-            <Text style={brutalTextStyle('h4', 'bold', 'black')}>
-              ${budget.spent}
+            <Text style={[brutalTextStyle('h4', 'bold', 'black'), styles.spentAmount]}>
+              ₹{budget.spent}
             </Text>
-            <Text style={brutalTextStyle('body', 'medium', 'gray')}>
-              OF ${budget.limit}
+            <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.limitText]}>
+              OF ₹{budget.limit}
             </Text>
           </View>
           
@@ -267,7 +272,7 @@ export default function BudgetManagement({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
@@ -292,6 +297,11 @@ const styles = StyleSheet.create({
   categoryInfo: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
+  },
+  categoryTextContainer: {
+    flex: 1,
+    marginRight: NeoBrutalism.spacing.sm,
   },
   categoryDot: {
     width: 16,
@@ -304,9 +314,19 @@ const styles = StyleSheet.create({
   categoryName: {
     fontWeight: 'bold',
   },
+  statusBadge: {
+    paddingHorizontal: NeoBrutalism.spacing.sm,
+    paddingVertical: NeoBrutalism.spacing.xs,
+    borderRadius: NeoBrutalism.borders.buttonRadius,
+    borderWidth: NeoBrutalism.borders.medium,
+    borderColor: NeoBrutalism.colors.black,
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   statusText: {
     fontWeight: '600',
-    fontSize: 12,
+    fontSize: 10,
   },
   amountSection: {
     marginBottom: 16,

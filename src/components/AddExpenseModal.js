@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
+import { Ionicons } from '@expo/vector-icons';
 import { useExpenseStore } from '../store/index.js';
 import { 
   BrutalCard, 
@@ -74,18 +75,17 @@ export default function AddExpenseModal({ visible, onClose }) {
       isVisible={visible}
       onBackdropPress={onClose}
       onBackButtonPress={onClose}
-      style={{ margin: 0, justifyContent: 'center' }}
+      style={styles.modal}
     >
       <View style={styles.container}>
-          <BrutalCard style={styles.header}>
-            <Text style={brutalTextStyle('h5', 'bold', 'white')}> ADD EXPENSE</Text>
-            <BrutalButton
-              title="✕"
-              variant="secondary"
-              onPress={onClose}
-              style={styles.closeButton}
-            />
-          </BrutalCard>
+        <View style={styles.header}>
+          <Text style={[brutalTextStyle('h5', 'bold', 'white'), styles.headerTitle]}>
+            ADD EXPENSE
+          </Text>
+          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Ionicons name="close" size={24} color={NeoBrutalism.colors.white} />
+          </TouchableOpacity>
+        </View>
 
           <View style={styles.form}>
             <View style={styles.inputContainer}>
@@ -174,7 +174,7 @@ export default function AddExpenseModal({ visible, onClose }) {
                   style={styles.categoryOption}
                   onPress={() => handleCategorySelect(index)}
                 >
-                  <Text style={[brutalTextStyle('body', 'medium', 'black'), { fontSize: 8 }]}>{category.toUpperCase()}</Text>
+                  <Text style={[brutalTextStyle('body', 'medium', 'black'), { fontSize: 12 }]}>{category.toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
             </View>

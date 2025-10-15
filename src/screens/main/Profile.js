@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Layout, 
-  Text, 
-  Input, 
-  Button, 
-  Card, 
-  TopNavigation, 
-  Toggle,
-  Avatar
-} from '@ui-kitten/components';
+import { useState } from 'react';
+import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore, useGameStore } from '../../store';
-
-const PersonIcon = (props) => <Ionicons name="person-outline" size={64} color="#8F9BB3" />;
-const LogoutIcon = (props) => <Ionicons name="log-out-outline" size={24} color="white" />;
+import { BrutalHeader, BrutalCard, BrutalButton, brutalTextStyle } from '../../components/BrutalComponents';
+import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 export default function Profile({ navigation }) {
   const { user, logout } = useAuthStore();
@@ -49,83 +38,82 @@ export default function Profile({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <Layout style={styles.container}>
-        <TopNavigation title='Profile & Settings' alignment='center' style={styles.topNavigation} />
+      <View style={styles.container}>
+        <BrutalHeader 
+          title="PROFILE"
+          leftAction={
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+            </TouchableOpacity>
+          }
+        />
       
-      <ScrollView style={styles.content}>
-        <Card style={styles.profileCard}>
-          <View style={styles.avatarContainer}>
-            <Avatar
-              style={styles.avatar}
-              source={{ uri: 'https://via.placeholder.com/100' }}
-            />
-            <Button size='small' appearance='ghost'>
-              Change Photo
-            </Button>
-          </View>
-          
-          <Input
-            style={styles.input}
-            label='Username'
-            value={username}
-            onChangeText={setUsername}
-            accessoryLeft={PersonIcon}
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+          <BrutalCard style={styles.profileCard}>
+            <View style={styles.avatarContainer}>
+              <View style={styles.avatarCircle}>
+                <Ionicons name="person" size={48} color={NeoBrutalism.colors.black} />
+              </View>
+              <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.username]}>
+                {username.toUpperCase()}
+              </Text>
+            </View>
+            
+            <View style={styles.statsContainer}>
+              <BrutalCard style={styles.statCard}>
+                <Text style={brutalTextStyle('h4', 'bold', 'black')}>{level}</Text>
+                <Text style={brutalTextStyle('caption', 'medium', 'gray')}>LEVEL</Text>
+              </BrutalCard>
+              <BrutalCard style={styles.statCard}>
+                <Text style={brutalTextStyle('h4', 'bold', 'black')}>{xp}</Text>
+                <Text style={brutalTextStyle('caption', 'medium', 'gray')}>XP</Text>
+              </BrutalCard>
+              <BrutalCard style={styles.statCard}>
+                <Text style={brutalTextStyle('h4', 'bold', 'black')}>{gameStats.totalGamesPlayed || 0}</Text>
+                <Text style={brutalTextStyle('caption', 'medium', 'gray')}>GAMES</Text>
+              </BrutalCard>
+            </View>
+          </BrutalCard>
+
+          <BrutalCard style={styles.settingsCard}>
+            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>SETTINGS</Text>
+            
+            <View style={styles.settingItem}>
+              <Text style={brutalTextStyle('body', 'medium', 'black')}>PUSH NOTIFICATIONS</Text>
+              <Switch
+                value={notifications}
+                onValueChange={setNotifications}
+                trackColor={{ false: NeoBrutalism.colors.lightGray, true: NeoBrutalism.colors.neonGreen }}
+                thumbColor={notifications ? NeoBrutalism.colors.white : NeoBrutalism.colors.gray}
+              />
+            </View>
+            
+            <View style={styles.settingItem}>
+              <Text style={brutalTextStyle('body', 'medium', 'black')}>BIOMETRIC LOGIN</Text>
+              <Switch
+                value={biometric}
+                onValueChange={setBiometric}
+                trackColor={{ false: NeoBrutalism.colors.lightGray, true: NeoBrutalism.colors.neonGreen }}
+                thumbColor={biometric ? NeoBrutalism.colors.white : NeoBrutalism.colors.gray}
+              />
+            </View>
+          </BrutalCard>
+
+          <BrutalButton
+            title="SAVE CHANGES"
+            style={styles.saveButton}
+            onPress={handleSaveProfile}
           />
-          
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text category='h6'>{level}</Text>
-              <Text category='c1'>Level</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Text category='h6'>{xp}</Text>
-              <Text category='c1'>XP</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Text category='h6'>{gameStats.totalGamesPlayed}</Text>
-              <Text category='c1'>Games</Text>
-            </View>
-          </View>
-        </Card>
 
-        <Card style={styles.settingsCard}>
-          <Text category='h6' style={styles.sectionTitle}>Settings</Text>
-          
-          <View style={styles.settingItem}>
-            <Text category='s1'>Push Notifications</Text>
-            <Toggle
-              checked={notifications}
-              onChange={setNotifications}
-            />
-          </View>
-          
-          <View style={styles.settingItem}>
-            <Text category='s1'>Biometric Login</Text>
-            <Toggle
-              checked={biometric}
-              onChange={setBiometric}
-            />
-          </View>
-        </Card>
-
-        <Button
-          style={styles.saveButton}
-          onPress={handleSaveProfile}
-        >
-          Save Changes
-        </Button>
-
-        <Button
-          style={styles.logoutButton}
-          appearance='outline'
-          status='danger'
-          accessoryLeft={LogoutIcon}
-          onPress={handleLogout}
-        >
-          Logout
-        </Button>
-      </ScrollView>
-    </Layout>
+          <BrutalButton
+            title="LOGOUT"
+            style={styles.logoutButton}
+            variant="secondary"
+            onPress={handleLogout}
+            icon={<Ionicons name="log-out-outline" size={20} color={NeoBrutalism.colors.black} />}
+          />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -133,63 +121,72 @@ export default function Profile({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  topNavigation: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 8,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,
-    padding: 16,
+  },
+  contentContainer: {
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100,
   },
   profileCard: {
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.lg,
     alignItems: 'center',
+    padding: NeoBrutalism.spacing.lg,
   },
   avatarContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: NeoBrutalism.spacing.lg,
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    marginBottom: 8,
+  avatarCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: NeoBrutalism.colors.neonYellow,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: NeoBrutalism.spacing.md,
   },
-  input: {
-    marginBottom: 16,
-    width: '100%',
+  username: {
+    textAlign: 'center',
   },
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
-    marginTop: 16,
+    gap: NeoBrutalism.spacing.sm,
   },
-  statItem: {
+  statCard: {
+    flex: 1,
     alignItems: 'center',
+    padding: NeoBrutalism.spacing.md,
   },
   settingsCard: {
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.lg,
+    padding: NeoBrutalism.spacing.lg,
   },
   sectionTitle: {
-    marginBottom: 16,
-    fontWeight: 'bold',
+    marginBottom: NeoBrutalism.spacing.lg,
+    textAlign: 'center',
   },
   settingItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.lg,
+    paddingVertical: NeoBrutalism.spacing.sm,
   },
   saveButton: {
-    marginBottom: 12,
+    marginBottom: NeoBrutalism.spacing.md,
   },
   logoutButton: {
-    marginBottom: 20,
+    marginBottom: NeoBrutalism.spacing.xl,
   },
 });

@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { 
-  Layout, 
-  Text, 
-  Modal
-} from '@ui-kitten/components';
+import { useState } from 'react';
+import { View, StyleSheet, Dimensions, TouchableOpacity, Text, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
@@ -19,11 +14,7 @@ import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const { width } = Dimensions.get('window');
 const GRID_SIZE = 6;
-const TILE_SIZE = (width - 48) / GRID_SIZE; // Reduced padding for more compact 6x6 grid
-
-const BackIcon = (props) => <Ionicons name="arrow-back" size={24} color="black" />;
-const DiceIcon = (props) => <Ionicons name="cube-outline" size={24} color="white" />;
-const PersonIcon = (props) => <Ionicons name="person-outline" size={20} color="white" />;
+const TILE_SIZE = (width - 48) / GRID_SIZE;
 
 // Enhanced board tiles with new types for 6x6 grid (36 tiles)
 const BOARD_TILES = Array.from({ length: 36 }, (_, i) => {
@@ -54,21 +45,7 @@ export default function GameBoard({ navigation }) {
     resetGame
   } = useGameStore();
 
-  const renderBackAction = () => (
-    <TopNavigationAction 
-      icon={BackIcon} 
-      onPress={() => {
-        // If game is in progress (score > 0 or lives < 3), show confirmation
-        if (score > 0 || lives < 3) {
-          // For now, just go back - could add Alert later
-          resetGame();
-          navigation.goBack();
-        } else {
-          navigation.goBack();
-        }
-      }} 
-    />
-  );
+
 
   const handleTileEffect = (tile, newPosition) => {
     switch (tile.type) {
@@ -171,7 +148,7 @@ export default function GameBoard({ navigation }) {
         <Text style={styles.tileIcon}>{getTileIcon()}</Text>
         {isPlayerHere && (
           <View style={styles.player}>
-            <PersonIcon />
+            <Ionicons name="person-outline" size={16} color="white" />
           </View>
         )}
       </View>
@@ -197,52 +174,61 @@ export default function GameBoard({ navigation }) {
 
   if (lives <= 0) {
     return (
-      <Layout style={styles.container}>
-        <TopNavigation
-          title='Game Over'
-          accessoryLeft={renderBackAction}
-        />
-        <View style={styles.gameOverContainer}>
-          <Card style={styles.gameOverCard}>
-            <Ionicons name="skull-outline" size={64} color="#E74C3C" style={styles.gameOverIcon} />
-            <Text category='h4' style={styles.gameOverText}>Game Over!</Text>
-            <Text category='p1' style={styles.gameOverScore}>Your final score: {score}</Text>
-            
-            <View style={styles.gameOverButtons}>
-              <BrutalButton
-                style={styles.restartButton}
-                onPress={() => {
-                  resetGame();
-                  navigation.replace('GameBoard');
-                }}
-                icon={<Ionicons name="refresh" size={20} color="white" />}
-              >
-                RESTART GAME
-              </BrutalButton>
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <View style={styles.container}>
+          <BrutalHeader 
+            title="GAME OVER"
+            leftAction={
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+              </TouchableOpacity>
+            }
+          />
+          <View style={styles.gameOverContainer}>
+            <BrutalCard style={styles.gameOverCard}>
+              <Ionicons name="skull-outline" size={64} color={NeoBrutalism.colors.hotPink} style={styles.gameOverIcon} />
+              <Text style={[brutalTextStyle('h4', 'bold', 'black'), styles.gameOverText]}>GAME OVER!</Text>
+              <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.gameOverScore]}>YOUR FINAL SCORE: {score}</Text>
               
-              <BrutalButton
-                style={styles.resultsButton}
-                variant="outline"
-                onPress={() => navigation.navigate('GameResults')}
-                icon={<Ionicons name="stats-chart" size={20} color="#6C5CE7" />}
-              >
-                VIEW RESULTS
-              </BrutalButton>
-            </View>
-          </Card>
+              <View style={styles.gameOverButtons}>
+                <BrutalButton
+                  title="RESTART GAME"
+                  style={styles.restartButton}
+                  onPress={() => {
+                    resetGame();
+                    navigation.replace('GameBoard');
+                  }}
+                  icon={<Ionicons name="refresh" size={20} color={NeoBrutalism.colors.black} />}
+                />
+                
+                <BrutalButton
+                  title="VIEW RESULTS"
+                  style={styles.resultsButton}
+                  variant="secondary"
+                  onPress={() => navigation.navigate('GameResults')}
+                  icon={<Ionicons name="stats-chart" size={20} color={NeoBrutalism.colors.black} />}
+                />
+              </View>
+            </BrutalCard>
+          </View>
         </View>
-      </Layout>
+      </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <BrutalHeader 
           title="🎮 GAME BOARD"
           textColor="white"
           leftAction={
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => {
+              if (score > 0 || lives < 3) {
+                resetGame();
+              }
+              navigation.goBack();
+            }}>
               <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
             </TouchableOpacity>
           }
@@ -292,10 +278,10 @@ export default function GameBoard({ navigation }) {
         >
           <BrutalCard style={styles.effectModal}>
             <Text style={brutalTextStyle('h5', 'bold', 'black')}>
-              {currentTileEffect?.title}
+              {currentTileEffect?.title?.toUpperCase()}
             </Text>
             <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.effectMessage]}>
-              {currentTileEffect?.message}
+              {currentTileEffect?.message?.toUpperCase()}
             </Text>
             
             {currentTileEffect?.isChoice ? (
@@ -303,7 +289,7 @@ export default function GameBoard({ navigation }) {
                 {currentTileEffect.choices.map((choice, index) => (
                   <BrutalButton
                     key={index}
-                    title={choice.text}
+                    title={choice.text.toUpperCase()}
                     variant={index === 0 ? "secondary" : "primary"}
                     style={styles.choiceButton}
                     onPress={() => {
@@ -319,14 +305,13 @@ export default function GameBoard({ navigation }) {
               </View>
             ) : (
               <BrutalButton
+                title="CONTINUE"
                 style={styles.effectButton}
                 onPress={() => {
                   currentTileEffect?.action?.();
                   setShowTileEffect(false);
                 }}
-              >
-                CONTINUE
-              </BrutalButton>
+              />
             )}
           </BrutalCard>
         </Modal>
@@ -343,14 +328,13 @@ export default function GameBoard({ navigation }) {
               CONGRATULATIONS! YOU REACHED LEVEL {level}!
             </Text>
             <BrutalButton
+              title="AWESOME!"
               style={styles.levelUpButton}
               onPress={() => clearLevelUp()}
-            >
-              AWESOME!
-            </BrutalButton>
+            />
           </BrutalCard>
         </Modal>
-    </Layout>
+      </View>
     </SafeAreaView>
   );
 }
@@ -358,7 +342,7 @@ export default function GameBoard({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: NeoBrutalism.colors.background,
   },
   topNavigation: {
     backgroundColor: '#FFFFFF',
@@ -366,7 +350,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,

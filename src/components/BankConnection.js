@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Platform, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Alert, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Layout, Text, Spinner } from '@ui-kitten/components';
 import { create, open, dismissLink } from 'react-native-plaid-link-sdk';
@@ -203,45 +203,73 @@ export default function BankConnection() {
             </TouchableOpacity>
           }
         />
-        <BrutalCard style={styles.card}>
-          <View style={styles.header}>
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+          <BrutalCard style={styles.infoCard}>
+            <View style={styles.iconContainer}>
+              <Ionicons name="shield-checkmark" size={48} color={NeoBrutalism.colors.primary} />
+            </View>
+            <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.infoTitle]}>
+              SECURE BANK CONNECTION
+            </Text>
+            <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.infoDescription]}>
+              Connect your bank account securely to automatically track your expenses and get personalized insights.
+            </Text>
+          </BrutalCard>
+
+          <BrutalCard style={styles.card}>
             {!isPlaidConnected ? (
               <View style={styles.connectSection}>
+                <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.connectTitle]}>
+                  CONNECT YOUR ACCOUNT
+                </Text>
                 {linkToken && (
-                  <View>
+                  <View style={styles.buttonGroup}>
                     <BrutalButton
                       style={styles.connectButton}
                       disabled={isLoading}
                       onPress={openPlaidLink}
-                      title={isLoading ? 'Connecting...' : 'Connect Bank Account'}
+                      title={isLoading ? 'CONNECTING...' : 'CONNECT BANK'}
+                      icon={<Ionicons name="business" size={20} color={NeoBrutalism.colors.black} />}
                     />
                     <BrutalButton
-                      style={[styles.connectButton, { marginTop: 10 }]}
+                      style={styles.connectButton}
                       variant="secondary"
                       onPress={() => {
                         setUseNativeSDK(false);
                         setShowWebLink(true);
                       }}
                       disabled={isLoading}
-                      title="Use Hosted Link (Recommended)"
+                      title="WEB VERSION"
+                      icon={<Ionicons name="globe" size={20} color={NeoBrutalism.colors.black} />}
                     />
                   </View>
                 )}
                 {!linkToken && !isLoading && (
-                  <Text style={{ color: NeoBrutalism.colors.hotPink, textAlign: 'center' }}>
-                    Failed to initialize. Check console for errors.
-                  </Text>
+                  <BrutalCard style={styles.errorCard}>
+                    <Text style={[brutalTextStyle('body', 'bold', 'white'), styles.errorText]}>
+                      ⚠️ CONNECTION FAILED
+                    </Text>
+                    <Text style={[brutalTextStyle('caption', 'medium', 'white'), styles.errorSubtext]}>
+                      Please check your internet connection and try again.
+                    </Text>
+                  </BrutalCard>
                 )}
               </View>
             ) : (
               <View style={styles.connectedSection}>
-                <Text style={[brutalTextStyle('body', 'bold', 'neonGreen'), styles.successText]}>
-                  ✅ Bank account connected successfully!
+                <View style={styles.successIcon}>
+                  <Ionicons name="checkmark-circle" size={64} color={NeoBrutalism.colors.success} />
+                </View>
+                <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.successTitle]}>
+                  CONNECTION SUCCESSFUL!
+                </Text>
+                <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.successText]}>
+                  Your bank account has been connected securely. You can now view your transactions and get insights.
                 </Text>
               </View>
             )}
-          </View>
-        </BrutalCard>
+          </BrutalCard>
+        </ScrollView>
         <PlaidSimpleLink
           linkToken={linkToken}
           visible={showWebLink}
@@ -261,8 +289,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
-    padding: 16,
+    backgroundColor: NeoBrutalism.colors.background,
+  },
+  content: {
+    flex: 1,
+  },
+  contentContainer: {
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100,
   },
   loadingContainer: {
     flex: 1,

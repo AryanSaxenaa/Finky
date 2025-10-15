@@ -111,28 +111,31 @@ export default function HomeDashboard({ navigation }) {
 
           {/* Chart Section */}
           {hasRealData ? (
-            <View style={styles.brutalChartSection}>
+            <BrutalCard style={styles.chartCard}>
+              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.chartTitle]}>
+                SPENDING BREAKDOWN
+              </Text>
               <View style={styles.chartWrapper}>
                 <PieChart
                   data={pieChartData}
-                  width={180}
-                  height={180}
+                  width={width - 80}
+                  height={200}
                   chartConfig={{
                     backgroundGradientFrom: NeoBrutalism.colors.white,
                     backgroundGradientTo: NeoBrutalism.colors.white,
                     color: (opacity = 1) => NeoBrutalism.colors.black,
-                    strokeWidth: 4,
+                    strokeWidth: 2,
                   }}
                   accessor="population"
                   backgroundColor="transparent"
-                  paddingLeft="45"
-                  center={[0, 0]}
+                  paddingLeft="0"
+                  center={[10, 0]}
                   absolute={false}
                   hasLegend={false}
                   avoidFalseZero={true}
                 />
               </View>
-            </View>
+            </BrutalCard>
           ) : (
             <View style={styles.emptyStateContainer}>
               <BrutalIllustration
@@ -200,60 +203,58 @@ export default function HomeDashboard({ navigation }) {
 
           {/* Category Legend */}
           {hasRealData && (
-            <BrutalCard style={styles.categoryLegend}>
-              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.legendTitle]}>
-                SPENDING BREAKDOWN
-              </Text>
-              <View style={styles.legendGrid}>
-                {displayData.map((item, index) => (
-                  <View key={index} style={styles.brutalLegendItem}>
+            <View style={styles.legendGrid}>
+              {displayData.map((item, index) => (
+                <BrutalCard key={index} style={styles.legendItem}>
+                  <View style={styles.legendItemContent}>
                     <View style={[styles.brutalLegendDot, { backgroundColor: colors[index % colors.length] }]} />
                     <View style={styles.legendTextContainer}>
                       <Text 
-                        style={brutalTextStyle('caption', 'bold', 'black')}
+                        style={[brutalTextStyle('caption', 'bold', 'black'), styles.legendCategory]}
                         numberOfLines={1}
-                        adjustsFontSizeToFit={true}
                       >
                         {item.category ? item.category.toUpperCase() : 'UNKNOWN'}
                       </Text>
                       <Text 
-                        style={brutalTextStyle('caption', 'bold', 'gray')}
+                        style={[brutalTextStyle('caption', 'bold', 'gray'), styles.legendAmount]}
                         numberOfLines={1}
                       >
-                        ${item.total.toLocaleString()}
+                        ₹{item.total.toLocaleString()}
                       </Text>
                     </View>
                   </View>
-                ))}
-              </View>
-            </BrutalCard>
+                </BrutalCard>
+              ))}
+            </View>
           )}
 
           {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             <BrutalButton
-              title="PAY NOW"
+              title="PAY"
               onPress={() => navigation.navigate('PaymentFlow')}
               variant="primary"
-              style={[styles.addExpenseButton, { backgroundColor: NeoBrutalism.colors.primary }]}
-              icon={<Ionicons name="card" size={20} color={NeoBrutalism.colors.white} />}
-              textStyle={{ color: NeoBrutalism.colors.white }}
+              style={[styles.actionButton, styles.payButton]}
+              icon={<Ionicons name="card" size={18} color={NeoBrutalism.colors.white} />}
+              textStyle={styles.payButtonText}
             />
 
             <BrutalButton
-              title="ADD EXPENSE"
+              title="ADD"
               onPress={() => setShowAddExpense(true)}
               variant="secondary"
-              style={styles.addExpenseButton}
-              icon={<Ionicons name="add" size={20} color={NeoBrutalism.colors.black} />}
+              style={styles.actionButton}
+              icon={<Ionicons name="add" size={18} color={NeoBrutalism.colors.black} />}
+              textStyle={styles.actionButtonText}
             />
 
             <BrutalButton
               title="HISTORY"
               onPress={() => navigation.navigate('ExpenseHistory')}
               variant="secondary"
-              style={styles.viewHistoryButton}
-              icon={<Ionicons name="list" size={20} color={NeoBrutalism.colors.black} />}
+              style={styles.actionButton}
+              icon={<Ionicons name="list" size={18} color={NeoBrutalism.colors.black} />}
+              textStyle={styles.actionButtonText}
             />
           </View>
 
@@ -365,15 +366,16 @@ export default function HomeDashboard({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   scrollView: {
     flex: 1,
-    padding: NeoBrutalism.spacing.lg,
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100,
   },
   
   // Profile Button
@@ -408,14 +410,26 @@ const styles = StyleSheet.create({
   },
   
   // Chart Styles
+  chartCard: {
+    marginVertical: NeoBrutalism.spacing.sm,
+    alignItems: 'center',
+    paddingHorizontal: NeoBrutalism.spacing.lg,
+    paddingVertical: NeoBrutalism.spacing.lg,
+  },
+  chartTitle: {
+    marginBottom: NeoBrutalism.spacing.md,
+    textAlign: 'center',
+  },
   brutalChartSection: {
     alignItems: 'center',
     marginTop: NeoBrutalism.spacing.md,
-    marginBottom: NeoBrutalism.spacing.sm, // Reduced gap after chart
+    marginBottom: NeoBrutalism.spacing.sm,
   },
   chartWrapper: {
-    position: 'relative',
+    width: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: NeoBrutalism.spacing.sm,
   },
   brutalChartCenter: {
     position: 'absolute',
@@ -479,24 +493,21 @@ const styles = StyleSheet.create({
   },
   
   // Legend
-  categoryLegend: {
-    marginTop: NeoBrutalism.spacing.xs, // Reduced gap from chart
-    marginBottom: NeoBrutalism.spacing.md,
-  },
-  legendTitle: {
-    marginBottom: NeoBrutalism.spacing.sm, // Reduced from md to sm
-  },
   legendGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginTop: NeoBrutalism.spacing.sm,
+    gap: NeoBrutalism.spacing.xs,
   },
-  brutalLegendItem: {
+  legendItem: {
+    width: '48%',
+    padding: NeoBrutalism.spacing.sm,
+    marginBottom: NeoBrutalism.spacing.xs,
+  },
+  legendItemContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '48%',
-    marginBottom: NeoBrutalism.spacing.sm,
-    paddingRight: NeoBrutalism.spacing.xs,
   },
   brutalLegendDot: {
     width: 12,
@@ -508,7 +519,15 @@ const styles = StyleSheet.create({
   },
   legendTextContainer: {
     flex: 1,
-    justifyContent: 'center',
+    marginLeft: NeoBrutalism.spacing.xs,
+  },
+  legendCategory: {
+    fontSize: 10,
+    lineHeight: 12,
+  },
+  legendAmount: {
+    fontSize: 10,
+    lineHeight: 12,
   },
   
   // Action Buttons
@@ -516,15 +535,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: NeoBrutalism.spacing.md,
-    gap: NeoBrutalism.spacing.xs, // Add gap between buttons
+    gap: NeoBrutalism.spacing.xs,
   },
-  addExpenseButton: {
+  actionButton: {
     flex: 1,
-    minHeight: 48, // Ensure minimum height for text
+    minHeight: 50,
+    paddingVertical: NeoBrutalism.spacing.sm,
   },
-  viewHistoryButton: {
-    flex: 1,
-    minHeight: 48, // Ensure minimum height for text
+  payButton: {
+    backgroundColor: NeoBrutalism.colors.primary,
+  },
+  payButtonText: {
+    color: NeoBrutalism.colors.white,
+    fontSize: NeoBrutalism.typography.button,
+    fontWeight: NeoBrutalism.typography.bold,
+  },
+  actionButtonText: {
+    fontSize: NeoBrutalism.typography.button,
+    fontWeight: NeoBrutalism.typography.bold,
   },
   
   // Budget Section

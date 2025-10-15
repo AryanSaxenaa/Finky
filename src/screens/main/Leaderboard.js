@@ -1,13 +1,8 @@
-import React from 'react';
-
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { BrutalCard, BrutalHeader, brutalTextStyle } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
-
-const TrophyIcon = (props) => <Ionicons name="trophy" size={20} color="#FFD700" />;
 
 // Sample top savers data - ranked by XP earned from saving
 const topSaversData = [
@@ -20,29 +15,9 @@ const topSaversData = [
 ];
 
 export default function Leaderboard({ navigation }) {
-  const renderLeaderboardItem = (item) => {
-    const isCurrentUser = item.name === 'You';
-    
-    return (
-      <ListItem
-        key={item.id}
-        style={[styles.listItem, isCurrentUser && styles.currentUser]}
-        title={`${item.rank}. ${item.name}`}
-        description={`${item.score} points`}
-        accessoryLeft={() => (
-          item.rank <= 3 ? (
-            <TrophyIcon />
-          ) : (
-            <Text style={styles.rankNumber}>{item.rank}</Text>
-          )
-        )}
-      />
-    );
-  };
-
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <BrutalHeader
           title="TOP SAVERS"
           textColor="white"
@@ -53,7 +28,7 @@ export default function Leaderboard({ navigation }) {
           }
         />
         <ScrollView style={styles.content}>
-          <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.title]}>Finky Champions</Text>
+          <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.title]}>FINKY CHAMPIONS</Text>
           <View>
             {topSaversData.map(item => (
               <BrutalCard
@@ -63,21 +38,21 @@ export default function Leaderboard({ navigation }) {
                   item.name === 'You' && styles.currentUser
                 ]}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={styles.leaderboardRow}>
                   {item.rank <= 3 ? (
-                    <Ionicons name="trophy" size={20} color="#FFD700" style={styles.trophyIcon} />
+                    <Ionicons name="trophy" size={24} color="#FFD700" style={styles.trophyIcon} />
                   ) : (
                     <Text style={styles.rankNumber}>{item.rank}</Text>
                   )}
-                  <View style={{ flex: 1, marginLeft: 8 }}>
+                  <View style={styles.playerInfo}>
                     <Text style={brutalTextStyle('body', 'bold', 'black')}>
-                      {item.rank}. {item.name}
+                      {item.rank}. {item.name.toUpperCase()}
                     </Text>
-                    <Text style={[brutalTextStyle('caption', 'medium', 'gray'), { marginTop: 2 }]}>
-                      Saved ₹{item.savedAmount.toLocaleString()}
+                    <Text style={[brutalTextStyle('caption', 'medium', 'gray'), styles.savedAmount]}>
+                      SAVED ₹{item.savedAmount.toLocaleString()}
                     </Text>
                   </View>
-                  <Text style={brutalTextStyle('body', 'medium', 'black')}>
+                  <Text style={brutalTextStyle('h6', 'bold', 'black')}>
                     {item.xp} XP
                   </Text>
                 </View>
@@ -85,7 +60,7 @@ export default function Leaderboard({ navigation }) {
             ))}
           </View>
         </ScrollView>
-      </Layout>
+      </View>
     </SafeAreaView>
   );
 }
@@ -93,41 +68,51 @@ export default function Leaderboard({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: NeoBrutalism.spacing.md,
   },
   title: {
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.lg,
     textAlign: 'center',
   },
   listItem: {
-    marginBottom: 12,
-    borderWidth: 3,
-    borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.lightGray,
-    padding: 16,
+    marginBottom: NeoBrutalism.spacing.md,
+    padding: NeoBrutalism.spacing.md,
   },
   currentUser: {
     backgroundColor: NeoBrutalism.colors.neonYellow,
-    borderLeftWidth: 6,
+    borderLeftWidth: NeoBrutalism.borders.thick * 2,
     borderLeftColor: NeoBrutalism.colors.hotPink,
   },
+  leaderboardRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   trophyIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
+    width: 32,
+    height: 32,
+    marginRight: NeoBrutalism.spacing.md,
   },
   rankNumber: {
     fontWeight: 'bold',
-    fontSize: 18,
-    marginRight: 16,
+    fontSize: 20,
+    marginRight: NeoBrutalism.spacing.md,
     color: NeoBrutalism.colors.deepPurple,
+    width: 32,
+    textAlign: 'center',
+  },
+  playerInfo: {
+    flex: 1,
+    marginLeft: NeoBrutalism.spacing.sm,
+  },
+  savedAmount: {
+    marginTop: NeoBrutalism.spacing.xs,
   },
 });

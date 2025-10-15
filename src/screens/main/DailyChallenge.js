@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { 
-  Layout, 
-  TopNavigation, 
-  TopNavigationAction, 
-  Text,
-  Card,
-  Button
-} from '@ui-kitten/components';
+import { useState, useEffect } from 'react';
+import { View, StyleSheet, Alert, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
@@ -15,34 +7,19 @@ import { QUESTIONS_DATABASE } from '../../utils/questions';
 import { BrutalCard, BrutalButton, BrutalHeader, brutalTextStyle } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
 
-const BackIcon = (props) => (
-  <Ionicons name="arrow-back" size={24} color="#2E384D" />
-);
-
-const CalendarIcon = (props) => (
-  <Ionicons name="calendar" size={24} color="#FFD700" />
-);
-
-const TrophyIcon = (props) => (
-  <Ionicons name="trophy" size={24} color="#FFD700" />
-);
-
 export default function DailyChallenge({ navigation }) {
   const gameStore = useGameStore();
   
   if (!gameStore) {
     return (
-      <Layout style={styles.container}>
-        <TopNavigation
-          title='Daily Challenge'
-          alignment='center'
-        />
+      <View style={styles.container}>
+        <BrutalHeader title="DAILY CHALLENGE" />
         <View style={styles.content}>
           <BrutalCard>
-            <Text>Loading...</Text>
+            <Text style={brutalTextStyle('body', 'medium', 'black')}>LOADING...</Text>
           </BrutalCard>
         </View>
-      </Layout>
+      </View>
     );
   }
 
@@ -145,74 +122,79 @@ export default function DailyChallenge({ navigation }) {
     }
   };
 
-  const renderBackAction = () => (
-    <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
-  );
-
   if (dailyChallenge?.completed) {
     return (
-      <Layout style={styles.container}>
-        <TopNavigation
-          title='Daily Challenge'
-          alignment='center'
-          accessoryLeft={renderBackAction}
-        />
-        
-        <View style={styles.content}>
-          <BrutalCard style={styles.completedCard}>
-            <View style={styles.completedHeader}>
-              <TrophyIcon />
-              <Text category='h4' style={styles.completedTitle}>
-                Challenge Complete!
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <View style={styles.container}>
+          <BrutalHeader 
+            title="DAILY CHALLENGE"
+            leftAction={
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+              </TouchableOpacity>
+            }
+          />
+          
+          <View style={styles.content}>
+            <BrutalCard style={styles.completedCard}>
+              <View style={styles.completedHeader}>
+                <Ionicons name="trophy" size={32} color={NeoBrutalism.colors.neonYellow} />
+                <Text style={[brutalTextStyle('h4', 'bold', 'black'), styles.completedTitle]}>
+                  CHALLENGE COMPLETE!
+                </Text>
+              </View>
+              
+              <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.completedText]}>
+                {dailyChallenge?.wasCorrect 
+                  ? `CONGRATULATIONS! YOU ANSWERED CORRECTLY AND EARNED ${dailyChallenge?.xpEarned || 0} XP!`
+                  : 'YOU COMPLETED TODAY\'S CHALLENGE. COME BACK TOMORROW FOR A NEW QUESTION!'
+                }
               </Text>
-            </View>
-            
-            <Text category='p1' style={styles.completedText}>
-              {dailyChallenge?.wasCorrect 
-                ? `Congratulations! You answered correctly and earned ${dailyChallenge?.xpEarned || 0} XP!`
-                : 'You completed today\'s challenge. Come back tomorrow for a new question!'
-              }
-            </Text>
-            
-            <Text category='c1' style={styles.nextChallengeText}>
-              Next challenge available tomorrow
-            </Text>
-            
-            <BrutalButton
-              style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
-              Back to Game Center
-            </BrutalButton>
-          </BrutalCard>
+              
+              <Text style={[brutalTextStyle('caption', 'medium', 'gray'), styles.nextChallengeText]}>
+                NEXT CHALLENGE AVAILABLE TOMORROW
+              </Text>
+              
+              <BrutalButton
+                title="BACK TO GAME CENTER"
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              />
+            </BrutalCard>
+          </View>
         </View>
-      </Layout>
+      </SafeAreaView>
     );
   }
 
   if (!currentQuestion) {
     return (
-      <Layout style={styles.container}>
-        <TopNavigation
-          title='Daily Challenge'
-          alignment='center'
-          accessoryLeft={renderBackAction}
-        />
-        
-        <View style={styles.content}>
-          <BrutalCard>
-            <Text>Loading today's challenge...</Text>
-          </BrutalCard>
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <View style={styles.container}>
+          <BrutalHeader 
+            title="DAILY CHALLENGE"
+            leftAction={
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+              </TouchableOpacity>
+            }
+          />
+          
+          <View style={styles.content}>
+            <BrutalCard>
+              <Text style={brutalTextStyle('body', 'medium', 'black')}>LOADING TODAY'S CHALLENGE...</Text>
+            </BrutalCard>
+          </View>
         </View>
-      </Layout>
+      </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <BrutalHeader 
-          title="Daily Challenge"
+          title="DAILY CHALLENGE"
           leftAction={
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
@@ -220,73 +202,73 @@ export default function DailyChallenge({ navigation }) {
           }
         />
       
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <BrutalCard style={styles.challengeHeader}>
-          <View style={styles.headerContent}>
-            <Ionicons name="calendar" size={24} color={NeoBrutalism.colors.neonYellow} />
-            <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.challengeTitle]}>
-              TODAY'S FINANCIAL QUESTION
-            </Text>
-          </View>
-          <Text style={[brutalTextStyle('caption', 'bold', 'black'), styles.rewardText]}>
-            REWARD: 50 XP
-          </Text>
-        </BrutalCard>
-
-        <BrutalCard style={styles.questionCard}>
-          <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.questionText]}>
-            {currentQuestion?.question || 'LOADING QUESTION...'}
-          </Text>
-          
-          <View style={styles.divider} />
-          
-          <View style={styles.optionsContainer}>
-            {currentQuestion?.options?.map((option, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.optionButton,
-                  selectedAnswer === index && styles.selectedOption,
-                  showResult && index === currentQuestion?.correctAnswer && styles.correctOption,
-                  showResult && selectedAnswer === index && index !== currentQuestion?.correctAnswer && styles.incorrectOption
-                ]}
-                onPress={() => handleAnswerSelect(index)}
-                disabled={showResult}
-              >
-                <Text style={[
-                  brutalTextStyle('body', 'bold', 'black'),
-                  selectedAnswer === index && styles.selectedOptionText,
-                  showResult && index === currentQuestion?.correctAnswer && styles.correctOptionText
-                ]}>
-                  {option}
-                </Text>
-              </TouchableOpacity>
-            )) || []}
-          </View>
-
-          {showResult && currentQuestion?.explanation && (
-            <View style={styles.explanationContainer}>
-              <View style={styles.divider} />
-              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.explanationTitle]}>
-                EXPLANATION:
-              </Text>
-              <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.explanationText]}>
-                {currentQuestion.explanation}
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+          <BrutalCard style={styles.challengeHeader}>
+            <View style={styles.headerContent}>
+              <Ionicons name="calendar" size={24} color={NeoBrutalism.colors.black} />
+              <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.challengeTitle]}>
+                TODAY'S FINANCIAL QUESTION
               </Text>
             </View>
-          )}
+            <Text style={[brutalTextStyle('caption', 'bold', 'black'), styles.rewardText]}>
+              REWARD: 50 XP
+            </Text>
+          </BrutalCard>
 
-          {!showResult && (
-            <BrutalButton
-              title="SUBMIT"
-              style={styles.submitButton}
-              onPress={handleSubmitAnswer}
-              disabled={selectedAnswer === null}
-            />
-          )}
-        </BrutalCard>
-      </ScrollView>
-    </Layout>
+          <BrutalCard style={styles.questionCard}>
+            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.questionText]}>
+              {currentQuestion?.question?.toUpperCase() || 'LOADING QUESTION...'}
+            </Text>
+            
+            <View style={styles.divider} />
+            
+            <View style={styles.optionsContainer}>
+              {currentQuestion?.options?.map((option, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.optionButton,
+                    selectedAnswer === index && styles.selectedOption,
+                    showResult && index === currentQuestion?.correctAnswer && styles.correctOption,
+                    showResult && selectedAnswer === index && index !== currentQuestion?.correctAnswer && styles.incorrectOption
+                  ]}
+                  onPress={() => handleAnswerSelect(index)}
+                  disabled={showResult}
+                >
+                  <Text style={[
+                    brutalTextStyle('body', 'medium', 'black'),
+                    selectedAnswer === index && styles.selectedOptionText,
+                    showResult && index === currentQuestion?.correctAnswer && styles.correctOptionText
+                  ]}>
+                    {option?.toUpperCase()}
+                  </Text>
+                </TouchableOpacity>
+              )) || []}
+            </View>
+
+            {showResult && currentQuestion?.explanation && (
+              <View style={styles.explanationContainer}>
+                <View style={styles.divider} />
+                <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.explanationTitle]}>
+                  EXPLANATION:
+                </Text>
+                <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.explanationText]}>
+                  {currentQuestion.explanation.toUpperCase()}
+                </Text>
+              </View>
+            )}
+
+            {!showResult && (
+              <BrutalButton
+                title="SUBMIT"
+                style={styles.submitButton}
+                onPress={handleSubmitAnswer}
+                disabled={selectedAnswer === null}
+              />
+            )}
+          </BrutalCard>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -294,15 +276,15 @@ export default function DailyChallenge({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   topNavigation: {
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     paddingVertical: 8,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,

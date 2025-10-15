@@ -91,12 +91,10 @@ export default function ExpenseHistory({ navigation }) {
                   width={width - 80}
                   height={220}
                   chartConfig={chartConfig}
-                  verticalLabelRotation={30}
+                  verticalLabelRotation={0}
                   showValuesOnTopOfBars={true}
                   fromZero={true}
-                  style={{
-                    marginVertical: 8,
-                  }}
+                  style={styles.chartStyle}
                 />
               </View>
               <View style={styles.monthlyBreakdown}>
@@ -150,30 +148,41 @@ export default function ExpenseHistory({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100,
   },
   chartCard: {
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.lg,
     backgroundColor: NeoBrutalism.colors.lightGray,
+    paddingHorizontal: NeoBrutalism.spacing.md,
+    paddingVertical: NeoBrutalism.spacing.lg,
   },
   chartTitle: {
-    marginBottom: 12,
+    marginBottom: NeoBrutalism.spacing.md,
     textAlign: 'center',
   },
   chartContainer: {
+    width: '100%',
     alignItems: 'center',
-    marginVertical: 10,
-    borderWidth: 0, // Removed black border
+    justifyContent: 'center',
+    marginVertical: NeoBrutalism.spacing.md,
     backgroundColor: NeoBrutalism.colors.white,
-    padding: 8,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    padding: NeoBrutalism.spacing.md,
+  },
+  chartStyle: {
+    borderRadius: 0,
+    borderWidth: NeoBrutalism.borders.medium,
+    borderColor: NeoBrutalism.colors.black,
   },
   monthlyBreakdown: {
     marginTop: 16,
