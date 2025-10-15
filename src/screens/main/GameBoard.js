@@ -370,9 +370,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 12,
-    paddingTop: 24, // Added padding between header and stats section
-    paddingBottom: 140, // Extra padding to prevent overlap with bottom nav
+    padding: NeoBrutalism.spacing.sm,
+    paddingTop: NeoBrutalism.spacing.md,
+    paddingBottom: 120, // Extra padding to prevent overlap with bottom nav
   },
   statsSection: {
     marginBottom: 12,
@@ -495,7 +495,8 @@ const styles = StyleSheet.create({
   },
   diceSection: {
     alignItems: 'center',
-    paddingVertical: 6,
+    paddingVertical: NeoBrutalism.spacing.md,
+    marginBottom: NeoBrutalism.spacing.lg,
     paddingHorizontal: 12,
     borderWidth: 0,
     backgroundColor: 'transparent',

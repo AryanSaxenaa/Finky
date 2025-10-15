@@ -182,16 +182,17 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: NeoBrutalism.spacing.lg,
+    paddingHorizontal: NeoBrutalism.spacing.md,
+    paddingBottom: 100, // Extra space for navigation
   },
   topSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20, // Added padding between header and buttons
-    marginBottom: NeoBrutalism.spacing.lg,
-    paddingHorizontal: NeoBrutalism.spacing.lg,
-    gap: NeoBrutalism.spacing.md,
+    marginTop: NeoBrutalism.spacing.sm,
+    marginBottom: NeoBrutalism.spacing.md,
+    paddingHorizontal: NeoBrutalism.spacing.md,
+    gap: NeoBrutalism.spacing.sm,
   },
   levelProgressContainer: {
     flex: 1,

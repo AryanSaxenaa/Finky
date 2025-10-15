@@ -49,20 +49,23 @@ export default function ExpenseHistory({ navigation }) {
   };
 
   const chartConfig = {
-    backgroundColor: '#ffffff',
-    backgroundGradientFrom: '#ffffff',
-    backgroundGradientTo: '#ffffff',
+    backgroundColor: NeoBrutalism.colors.white,
+    backgroundGradientFrom: NeoBrutalism.colors.white,
+    backgroundGradientTo: NeoBrutalism.colors.lightGray,
     decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(108, 92, 231, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(34, 43, 69, ${opacity})`,
+    color: (opacity = 1) => NeoBrutalism.colors.primary,
+    labelColor: (opacity = 1) => NeoBrutalism.colors.black,
     style: {
-      borderRadius: 16
+      borderRadius: 0, // Neo-brutalism sharp corners
     },
     propsForDots: {
-      r: "6",
-      strokeWidth: "2",
-      stroke: "#6C5CE7"
-    }
+      r: "4",
+      strokeWidth: "3",
+      stroke: NeoBrutalism.colors.black
+    },
+    barPercentage: 0.7,
+    fillShadowGradient: NeoBrutalism.colors.primary,
+    fillShadowGradientOpacity: 1,
   };
 
   return (

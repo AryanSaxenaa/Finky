@@ -151,7 +151,7 @@ export default function QuizDetail({ navigation, route }) {
           }
         />
 
-        <ScrollView style={styles.content}>
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
           {currentStep === 'content' && (
             <BrutalCard style={styles.contentCard}>
               <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.sectionTitle]}>📚 LEARNING CONTENT</Text>
@@ -236,7 +236,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
+  },
+  contentContainer: {
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100, // Extra space for navigation
   },
   contentCard: {
     marginBottom: 16,

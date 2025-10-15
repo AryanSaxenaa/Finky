@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import { 
   Layout, 
   TopNavigation, 
@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
 import { QUESTIONS_DATABASE } from '../../utils/questions';
-import { BrutalCard, BrutalButton, brutalTextStyle } from '../../components/BrutalComponents';
+import { BrutalCard, BrutalButton, BrutalHeader, brutalTextStyle } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const BackIcon = (props) => (
@@ -211,17 +211,19 @@ export default function DailyChallenge({ navigation }) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <Layout style={styles.container}>
-        <TopNavigation
-          title='Daily Challenge'
-          alignment='center'
-          accessoryLeft={renderBackAction}
-          style={styles.topNavigation}
+        <BrutalHeader 
+          title="Daily Challenge"
+          leftAction={
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+            </TouchableOpacity>
+          }
         />
       
-      <View style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <BrutalCard style={styles.challengeHeader}>
           <View style={styles.headerContent}>
-            <CalendarIcon />
+            <Ionicons name="calendar" size={24} color={NeoBrutalism.colors.neonYellow} />
             <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.challengeTitle]}>
               TODAY'S FINANCIAL QUESTION
             </Text>
@@ -240,7 +242,7 @@ export default function DailyChallenge({ navigation }) {
           
           <View style={styles.optionsContainer}>
             {currentQuestion?.options?.map((option, index) => (
-              <BrutalButton
+              <TouchableOpacity
                 key={index}
                 style={[
                   styles.optionButton,
@@ -248,12 +250,17 @@ export default function DailyChallenge({ navigation }) {
                   showResult && index === currentQuestion?.correctAnswer && styles.correctOption,
                   showResult && selectedAnswer === index && index !== currentQuestion?.correctAnswer && styles.incorrectOption
                 ]}
-                variant={selectedAnswer === index ? 'primary' : 'outline'}
                 onPress={() => handleAnswerSelect(index)}
                 disabled={showResult}
               >
-                {option}
-              </BrutalButton>
+                <Text style={[
+                  brutalTextStyle('body', 'bold', 'black'),
+                  selectedAnswer === index && styles.selectedOptionText,
+                  showResult && index === currentQuestion?.correctAnswer && styles.correctOptionText
+                ]}>
+                  {option}
+                </Text>
+              </TouchableOpacity>
             )) || []}
           </View>
 
@@ -271,15 +278,14 @@ export default function DailyChallenge({ navigation }) {
 
           {!showResult && (
             <BrutalButton
+              title="SUBMIT"
               style={styles.submitButton}
               onPress={handleSubmitAnswer}
               disabled={selectedAnswer === null}
-            >
-              SUBMIT ANSWER
-            </BrutalButton>
+            />
           )}
         </BrutalCard>
-      </View>
+      </ScrollView>
     </Layout>
     </SafeAreaView>
   );
@@ -300,7 +306,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
+  },
+  contentContainer: {
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100, // Extra space for navigation
   },
   challengeHeader: {
     marginBottom: 16,
@@ -339,16 +348,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   optionButton: {
-    marginBottom: 12,
-    justifyContent: 'flex-start',
+    marginBottom: NeoBrutalism.spacing.sm,
+    padding: NeoBrutalism.spacing.md,
+    backgroundColor: NeoBrutalism.colors.white,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    borderRadius: NeoBrutalism.borders.buttonRadius,
+    minHeight: 50,
+    justifyContent: 'center',
   },
   selectedOption: {
-    backgroundColor: NeoBrutalism.colors.neonBlue,
+    backgroundColor: NeoBrutalism.colors.neonYellow,
     borderColor: NeoBrutalism.colors.black,
+  },
+  selectedOptionText: {
+    color: NeoBrutalism.colors.black,
   },
   correctOption: {
     backgroundColor: NeoBrutalism.colors.neonGreen,
     borderColor: NeoBrutalism.colors.black,
+  },
+  correctOptionText: {
+    color: NeoBrutalism.colors.white,
   },
   incorrectOption: {
     backgroundColor: NeoBrutalism.colors.hotPink,

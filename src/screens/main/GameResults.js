@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { 
   Layout, 
   Text, 
@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
-import { BrutalCard, BrutalButton, brutalTextStyle } from '../../components/BrutalComponents';
+import { BrutalCard, BrutalButton, BrutalHeader, brutalTextStyle } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const TrophyIcon = (props) => <Ionicons name="trophy" size={64} color="#FFD700" />;
@@ -77,12 +77,19 @@ export default function GameResults({ navigation }) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <Layout style={styles.container}>
-        <TopNavigation
-          title='Game Results'
-          alignment='center'
-          accessoryLeft={renderBackAction}
-          style={styles.topNavigation}
-        />      <View style={styles.content}>
+        <BrutalHeader 
+          title="🏆 RESULT"
+          leftAction={
+            <TouchableOpacity onPress={() => {
+              resetGame();
+              navigation.goBack();
+            }}>
+              <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />
+            </TouchableOpacity>
+          }
+        />
+        
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {/* Performance Card */}
         <Card style={styles.performanceCard}>
           <Text style={styles.performanceIcon}>{performance.icon}</Text>
@@ -183,8 +190,8 @@ export default function GameResults({ navigation }) {
             🏠 RETURN HOME
           </BrutalButton>
         </View>
-      </View>
-    </Layout>
+        </ScrollView>
+      </Layout>
     </SafeAreaView>
   );
 }
@@ -204,7 +211,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
+  },
+  contentContainer: {
+    padding: NeoBrutalism.spacing.md,
+    paddingBottom: 100, // Extra space for navigation
   },
   performanceCard: {
     alignItems: 'center',
