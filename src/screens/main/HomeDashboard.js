@@ -231,9 +231,18 @@ export default function HomeDashboard({ navigation }) {
           {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             <BrutalButton
+              title="PAY NOW"
+              onPress={() => navigation.navigate('PaymentFlow')}
+              variant="primary"
+              style={[styles.addExpenseButton, { backgroundColor: NeoBrutalism.colors.primary }]}
+              icon={<Ionicons name="card" size={20} color={NeoBrutalism.colors.white} />}
+              textStyle={{ color: NeoBrutalism.colors.white }}
+            />
+
+            <BrutalButton
               title="ADD EXPENSE"
               onPress={() => setShowAddExpense(true)}
-              variant="primary"
+              variant="secondary"
               style={styles.addExpenseButton}
               icon={<Ionicons name="add" size={20} color={NeoBrutalism.colors.black} />}
             />
@@ -327,7 +336,7 @@ export default function HomeDashboard({ navigation }) {
                   NO BUDGETS SET
                 </Text>
                 <Text style={brutalTextStyle('caption', 'medium', 'gray')}>
-                  Create budgets to track your spending goals
+                  Set spending limits and spend mindfully
                 </Text>
               </View>
             )}

@@ -9,14 +9,14 @@ import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const TrophyIcon = (props) => <Ionicons name="trophy" size={20} color="#FFD700" />;
 
-// Sample leaderboard data
-const leaderboardData = [
-  { id: 1, name: 'FinanceWiz', score: 2450, rank: 1 },
-  { id: 2, name: 'MoneyMaster', score: 2380, rank: 2 },
-  { id: 3, name: 'BudgetBoss', score: 2290, rank: 3 },
-  { id: 4, name: 'SavingsGuru', score: 2150, rank: 4 },
-  { id: 5, name: 'InvestorPro', score: 2050, rank: 5 },
-  { id: 6, name: 'You', score: 1950, rank: 6 },
+// Sample top savers data - ranked by XP earned from saving
+const topSaversData = [
+  { id: 1, name: 'SaveMaster', xp: 2450, rank: 1, savedAmount: 12500 },
+  { id: 2, name: 'WiseSpender', xp: 2380, rank: 2, savedAmount: 11900 },
+  { id: 3, name: 'FinkyChamp', xp: 2290, rank: 3, savedAmount: 11450 },
+  { id: 4, name: 'MoneyGuard', xp: 2150, rank: 4, savedAmount: 10750 },
+  { id: 5, name: 'SmartSaver', xp: 2050, rank: 5, savedAmount: 10250 },
+  { id: 6, name: 'You', xp: 1950, rank: 6, savedAmount: 9750 },
 ];
 
 export default function Leaderboard({ navigation }) {
@@ -44,7 +44,7 @@ export default function Leaderboard({ navigation }) {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <Layout style={styles.container}>
         <BrutalHeader
-          title="LEADERBOARD"
+          title="TOP SAVERS"
           textColor="white"
           leftAction={
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -53,9 +53,9 @@ export default function Leaderboard({ navigation }) {
           }
         />
         <ScrollView style={styles.content}>
-          <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.title]}>Top Players</Text>
+          <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.title]}>Finky Champions</Text>
           <View>
-            {leaderboardData.map(item => (
+            {topSaversData.map(item => (
               <BrutalCard
                 key={item.id}
                 style={[
@@ -69,12 +69,16 @@ export default function Leaderboard({ navigation }) {
                   ) : (
                     <Text style={styles.rankNumber}>{item.rank}</Text>
                   )}
-                  <Text style={brutalTextStyle('body', 'bold', 'black')}>
-                    {item.rank}. {item.name}
-                  </Text>
-                  <View style={{ flex: 1 }} />
+                  <View style={{ flex: 1, marginLeft: 8 }}>
+                    <Text style={brutalTextStyle('body', 'bold', 'black')}>
+                      {item.rank}. {item.name}
+                    </Text>
+                    <Text style={[brutalTextStyle('caption', 'medium', 'gray'), { marginTop: 2 }]}>
+                      Saved ₹{item.savedAmount.toLocaleString()}
+                    </Text>
+                  </View>
                   <Text style={brutalTextStyle('body', 'medium', 'black')}>
-                    {item.score} pts
+                    {item.xp} XP
                   </Text>
                 </View>
               </BrutalCard>

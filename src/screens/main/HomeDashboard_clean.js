@@ -292,7 +292,7 @@ export default function HomeDashboard({ navigation }) {
                   NO BUDGETS SET
                 </Text>
                 <Text style={brutalTextStyle('caption', 'medium', 'gray')}>
-                  Create budgets to track your spending goals
+                  Set spending limits and spend mindfully
                 </Text>
               </View>
             )}

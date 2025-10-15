@@ -1,7 +1,7 @@
 
-# FinWell Quest
+# Finky
 
-FinWell Quest is a modern, gamified personal finance management app built with React Native and Expo. The application is designed to empower users to take control of their finances through interactive tools, AI-powered assistance, and engaging educational content. The project leverages a Neo-Brutalism design system for a bold, accessible, and visually distinct user experience.
+Finky is an AI-powered UPI payment app that rewards mindful spending and saving. Built with React Native and Expo, Finky acts as your financial guardian, using AI to help you make better spending decisions while rewarding you for saving money. The app features a Neo-Brutalism design system for a bold, accessible, and visually distinct user experience.
 
 ## Key Features
 

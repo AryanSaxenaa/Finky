@@ -1,22 +1,30 @@
-// Neo-Brutalism Design System for FinPath Quest
+// Neo-Brutalism Design System for Finky
 
-export const NeoBrutalism = {
+export const FinkyTheme = {
   // Color Palette
   colors: {
     // Primary Neo-Brutalism Colors
-    black: '#000000',
+    black: '#1C1C1C',
     white: '#FFFFFF',
     
-    // Vibrant Accent Colors
-    neonYellow: '#FFFF00',
+    // Finky Brand Colors
+    background: '#FFF8E1', // Creamy background
+    text: '#1C1C1C',       // Dark text
+    primary: '#2ECC71',     // Green for success and saving
+    accent: '#F39C12',      // Orange for calls to action
+    card: '#FFFFFF',        // White for cards
+    border: '#1C1C1C',      // Dark border for Neo-Brutalism
+    
+    // Legacy colors for compatibility
+    neonYellow: '#F39C12',
     hotPink: '#FF1493',
     electricBlue: '#00BFFF',
-    neonGreen: '#39FF14',
-    brightOrange: '#FF4500',
+    neonGreen: '#2ECC71',
+    brightOrange: '#F39C12',
     pureRed: '#FF0000',
     deepPurple: '#8B00FF',
     
-    // New darker alternatives
+    // Functional alternatives
     darkBlue: '#1a365d',
     darkGreen: '#1a4338',
     darkOrange: '#c53030',
@@ -25,14 +33,13 @@ export const NeoBrutalism = {
     gray: '#718096',
     
     // Functional Colors
-    success: '#39FF14',
-    warning: '#FFFF00',
+    success: '#2ECC71',
+    warning: '#F39C12',
     error: '#FF0000',
     info: '#00BFFF',
     
     // Backgrounds
-    background: '#FFFFFF',
-    surface: '#000000',
+    surface: '#1C1C1C',
     cardBackground: '#FFFFFF',
   },
 
@@ -247,3 +254,5 @@ brutalTextStyle.title = brutalTextStyle('h1', 'bold', 'white');
 brutalTextStyle.subtitle = brutalTextStyle('h6', 'medium', 'white');
 brutalTextStyle.body = brutalTextStyle('body', 'medium', 'white');
 brutalTextStyle.caption = brutalTextStyle('caption', 'medium', 'gray');
+// Export alias for backward compatibility
+export const NeoBrutalism = FinkyTheme;

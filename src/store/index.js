@@ -47,6 +47,14 @@ export const useGameStore = create((set, get) => ({
     completed: false,
     wasCorrect: false,
     xpEarned: 0,
+  },
+
+  // Finky Saving Challenge
+  savingChallenge: {
+    date: null,
+    challenge: null,
+    completed: false,
+    xpEarned: 0,
   },  // Level progression: Every 100 XP = 1 level
   calculateLevel: (xp) => Math.floor(xp / 100) + 1,
   getXPForNextLevel: (currentXP) => (Math.floor(currentXP / 100) + 1) * 100,
@@ -176,6 +184,24 @@ export const useGameStore = create((set, get) => ({
       xpEarned,
     }
   })),
+
+  // Finky Saving Challenge methods
+  generateSavingChallenge: (challenge, date) => set({
+    savingChallenge: {
+      date,
+      challenge,
+      completed: false,
+      xpEarned: 0,
+    }
+  }),
+
+  completeSavingChallenge: (xpEarned) => set((state) => ({
+    savingChallenge: {
+      ...state.savingChallenge,
+      completed: true,
+      xpEarned,
+    }
+  })),
   
   checkDailyChallengeReset: () => {
     const today = new Date().toDateString();
@@ -196,6 +222,19 @@ export const useGameStore = create((set, get) => ({
   
   addXP: (amount) => set((state) => {
     const newXP = state.xp + amount;
+    const newLevel = Math.floor(newXP / 100) + 1;
+    const leveledUp = newLevel > state.level;
+    
+    return {
+      xp: newXP,
+      level: newLevel,
+      lastLevelUp: leveledUp,
+    };
+  }),
+
+  // NEW ACTION: Reward the user for not spending (Finky feature)
+  awardSavingXP: (points) => set((state) => {
+    const newXP = state.xp + points;
     const newLevel = Math.floor(newXP / 100) + 1;
     const leveledUp = newLevel > state.level;
     
@@ -246,6 +285,27 @@ export const useExpenseStore = create((set, get) => ({
     // Update budget spending
     const { updateBudgetSpending } = useBudgetStore.getState();
     updateBudgetSpending(expense.category, expense.amount);
+    
+    return { 
+      expenses: newExpenses, 
+      totalSpent: newTotal 
+    };
+  }),
+
+  // NEW ACTION: Manually add a transaction after simulated UPI payment (Finky feature)
+  addTransaction: (newTransaction) => set((state) => {
+    const formattedTransaction = {
+      ...newTransaction,
+      id: newTransaction.id || new Date().toISOString(),
+      date: newTransaction.date || new Date().toISOString().split('T')[0],
+    };
+    
+    const newExpenses = [formattedTransaction, ...state.expenses];
+    const newTotal = newExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+    
+    // Update budget spending
+    const { updateBudgetSpending } = useBudgetStore.getState();
+    updateBudgetSpending(formattedTransaction.category, formattedTransaction.amount);
     
     return { 
       expenses: newExpenses, 

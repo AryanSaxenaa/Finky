@@ -23,11 +23,10 @@ export default function SplashScreen({ navigation }) {
   return (
     <Layout style={styles.container}>
       <View style={styles.logoContainer}>
-        <Text style={brutalTextStyle('h1', 'bold', 'black')}>FINPATH</Text>
-        <Text style={brutalTextStyle('h1', 'bold', 'darkBlue')}>QUEST</Text>
+        <Text style={[brutalTextStyle('h1', 'bold', 'black'), { fontSize: 48 }]}>FINKY</Text>
       </View>
       <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.subtitle]}>
-        YOUR FINANCIAL JOURNEY STARTS HERE
+        YOUR FINANCIAL GUARDIAN
       </Text>
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={NeoBrutalism.colors.darkBlue} />

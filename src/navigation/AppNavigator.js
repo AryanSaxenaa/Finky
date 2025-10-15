@@ -6,6 +6,7 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import TwoFactorScreen from '../screens/auth/TwoFactorScreen';
 import MainTabNavigator from './MainTabNavigator';
+import PaymentStackNavigator from './PaymentStackNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ export default function AppNavigator() {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="TwoFactor" component={TwoFactorScreen} />
       <Stack.Screen name="Main" component={MainTabNavigator} />
+      <Stack.Screen 
+        name="PaymentFlow" 
+        component={PaymentStackNavigator} 
+        options={{ presentation: 'modal' }}
+      />
     </Stack.Navigator>
   );
 }

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "finpath-quest",
-    "slug": "finpath-quest",
+    "name": "Finky",
+    "slug": "finky",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
