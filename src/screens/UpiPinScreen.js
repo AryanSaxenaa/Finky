@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { BrutalHeader } from '../components/BrutalComponents';
 import { useExpenseStore } from '../store';
-import { FinkyTheme } from '../styles/neoBrutalism';
+import { FinkyTheme, NeoBrutalism } from '../styles/neoBrutalism';
 import UpiService from '../services/upiService';
 
 const UpiPinScreen = ({ route, navigation }) => {
@@ -150,7 +151,12 @@ const UpiPinScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BrutalHeader title="Enter UPI PIN" />
+      <BrutalHeader 
+        title="SECURE PAYMENT" 
+        subtitle="ENTER YOUR UPI PIN"
+        leftIcon={<Ionicons name="lock-closed" size={20} color={NeoBrutalism.colors.white} />}
+        textColor="white"
+      />
       
       <View style={styles.content}>
         <View style={styles.paymentInfo}>

@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     padding: NeoBrutalism.spacing.sm, // Reduced from md
     borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   activeModeButton: {
     backgroundColor: NeoBrutalism.colors.lightGray,
@@ -362,8 +362,9 @@ const styles = StyleSheet.create({
   chatContainer: {
     flex: 1,
     marginBottom: NeoBrutalism.spacing.sm,
-    backgroundColor: '#E8EDF3', // Darker blue-gray background
-    borderWidth: 0, // Removed border
+    backgroundColor: NeoBrutalism.colors.background, // Use cream background
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
   },
   chatContent: {
     flexGrow: 1,
@@ -424,7 +425,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     paddingHorizontal: NeoBrutalism.spacing.lg,
     paddingVertical: NeoBrutalism.spacing.md,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     borderTopWidth: NeoBrutalism.borders.thick,
     borderTopColor: NeoBrutalism.colors.black,
   },
@@ -437,7 +438,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     minHeight: 50, // Ensure minimum height for placeholder visibility
     marginRight: NeoBrutalism.spacing.xs, // Add margin to increase text input width
   },

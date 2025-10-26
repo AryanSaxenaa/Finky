@@ -40,7 +40,9 @@ export default function Profile({ navigation }) {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
         <BrutalHeader 
-          title="PROFILE"
+          title="MY PROFILE"
+          subtitle="MANAGE YOUR ACCOUNT"
+          leftIcon={<Ionicons name="person-circle" size={20} color={NeoBrutalism.colors.white} />}
           leftAction={
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons name="arrow-back" size={24} color={NeoBrutalism.colors.white} />

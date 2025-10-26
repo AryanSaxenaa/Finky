@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { BrutalHeader, BrutalInput, BrutalButton } from '../components/BrutalComponents';
 import AIGuardianModal from '../components/AIGuardianModal';
 import { useGameStore } from '../store';
-import { FinkyTheme } from '../styles/neoBrutalism';
+import { FinkyTheme, NeoBrutalism } from '../styles/neoBrutalism';
 import UpiService from '../services/upiService';
 
 const UpiPaymentScreen = ({ navigation }) => {
@@ -86,7 +87,12 @@ const UpiPaymentScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BrutalHeader title="Send Money" />
+      <BrutalHeader 
+        title="SEND MONEY" 
+        subtitle="QUICK UPI PAYMENT"
+        leftIcon={<Ionicons name="send" size={20} color={NeoBrutalism.colors.white} />}
+        textColor="white"
+      />
       
       <View style={styles.content}>
         <BrutalInput 

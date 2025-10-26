@@ -3,12 +3,12 @@ import { View, StyleSheet, Dimensions, TouchableOpacity, Text, Modal } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useGameStore } from '../../store';
-import { 
-  BrutalCard, 
-  BrutalButton, 
+import {
+  BrutalCard,
+  BrutalButton,
   BrutalHeader,
   BrutalStats,
-  brutalTextStyle 
+  brutalTextStyle
 } from '../../components/BrutalComponents';
 import { NeoBrutalism } from '../../styles/neoBrutalism';
 
@@ -30,13 +30,13 @@ export default function GameBoard({ navigation }) {
   const [isRolling, setIsRolling] = useState(false);
   const [showTileEffect, setShowTileEffect] = useState(false);
   const [currentTileEffect, setCurrentTileEffect] = useState(null);
-  
-  const { 
-    score, 
-    level, 
-    lives, 
-    position, 
-    movePlayer, 
+
+  const {
+    score,
+    level,
+    lives,
+    position,
+    movePlayer,
     setCurrentQuestion,
     updateScore,
     loseLife,
@@ -51,37 +51,40 @@ export default function GameBoard({ navigation }) {
     switch (tile.type) {
       case 'question':
         setTimeout(() => {
-          navigation.navigate('QuestionScreen', { 
+          navigation.navigate('QuestionScreen', {
             tileType: tile.type,
-            position: newPosition 
+            position: newPosition
           });
         }, 1000);
         break;
-      
+
       case 'bonus':
         setCurrentTileEffect({
           type: 'bonus',
-          title: '🎉 Bonus Tile!',
+          title: 'Bonus Tile!',
+          icon: 'gift',
           message: 'You found a treasure! +50 XP',
           action: () => updateScore(50, null, true)
         });
         setShowTileEffect(true);
         break;
-        
+
       case 'trap':
         setCurrentTileEffect({
           type: 'trap',
-          title: '⚠️ Unexpected Expense!',
+          title: 'Unexpected Expense!',
+          icon: 'warning',
           message: 'Car repair bill! You lose 1 life.',
           action: () => loseLife()
         });
         setShowTileEffect(true);
         break;
-        
+
       case 'investment':
         setCurrentTileEffect({
           type: 'investment',
-          title: '📈 Investment Opportunity!',
+          title: 'Investment Opportunity!',
+          icon: 'trending-up',
           message: 'Choose your risk level:',
           isChoice: true,
           choices: [
@@ -96,20 +99,20 @@ export default function GameBoard({ navigation }) {
 
   const rollDice = () => {
     if (isRolling || lives <= 0) return;
-    
+
     setIsRolling(true);
-    
+
     // Simulate dice roll animation
     setTimeout(() => {
       const roll = Math.floor(Math.random() * 6) + 1;
       setDiceValue(roll);
       movePlayer(roll);
-      
+
       const newPosition = (position + roll) % 36;
       const tile = BOARD_TILES[newPosition];
-      
+
       handleTileEffect(tile, newPosition);
-      
+
       setIsRolling(false);
     }, 1500);
   };
@@ -118,21 +121,21 @@ export default function GameBoard({ navigation }) {
     const isPlayerHere = index === position;
     const getTileColor = () => {
       switch (tile.type) {
-        case 'question': return NeoBrutalism.colors.electricBlue;
-        case 'bonus': return NeoBrutalism.colors.neonGreen;
-        case 'trap': return NeoBrutalism.colors.hotPink;
-        case 'investment': return '#D97706'; // Changed from neonYellow to darker orange
-        default: return '#6B7280'; // Dark gray for better visibility
+        case 'question': return NeoBrutalism.game.board.question;
+        case 'bonus': return NeoBrutalism.game.board.bonus;
+        case 'trap': return NeoBrutalism.game.board.trap;
+        case 'investment': return NeoBrutalism.game.board.investment;
+        default: return NeoBrutalism.game.board.normal;
       }
     };
-    
+
     const getTileIcon = () => {
       switch (tile.type) {
-        case 'question': return '❓';
-        case 'bonus': return '💰';
-        case 'trap': return '⚠️';
-        case 'investment': return '📈';
-        default: return '';
+        case 'question': return '?';
+        case 'bonus': return '$';
+        case 'trap': return '!';
+        case 'investment': return '↗';
+        default: return (index + 1).toString();
       }
     };
 
@@ -144,11 +147,10 @@ export default function GameBoard({ navigation }) {
 
     return (
       <View key={tile.id} style={tileStyle}>
-        <Text style={styles.tileNumber}>{index + 1}</Text>
         <Text style={styles.tileIcon}>{getTileIcon()}</Text>
         {isPlayerHere && (
           <View style={styles.player}>
-            <Ionicons name="person-outline" size={16} color="white" />
+            <Ionicons name="person" size={12} color={NeoBrutalism.colors.black} />
           </View>
         )}
       </View>
@@ -176,7 +178,7 @@ export default function GameBoard({ navigation }) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
         <View style={styles.container}>
-          <BrutalHeader 
+          <BrutalHeader
             title="GAME OVER"
             leftAction={
               <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -189,7 +191,7 @@ export default function GameBoard({ navigation }) {
               <Ionicons name="skull-outline" size={64} color={NeoBrutalism.colors.hotPink} style={styles.gameOverIcon} />
               <Text style={[brutalTextStyle('h4', 'bold', 'black'), styles.gameOverText]}>GAME OVER!</Text>
               <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.gameOverScore]}>YOUR FINAL SCORE: {score}</Text>
-              
+
               <View style={styles.gameOverButtons}>
                 <BrutalButton
                   title="RESTART GAME"
@@ -200,7 +202,7 @@ export default function GameBoard({ navigation }) {
                   }}
                   icon={<Ionicons name="refresh" size={20} color={NeoBrutalism.colors.black} />}
                 />
-                
+
                 <BrutalButton
                   title="VIEW RESULTS"
                   style={styles.resultsButton}
@@ -219,8 +221,10 @@ export default function GameBoard({ navigation }) {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.container}>
-        <BrutalHeader 
-          title="🎮 GAME BOARD"
+        <BrutalHeader
+          title="FINANCIAL QUEST"
+          subtitle="LEARN • PLAY • EARN"
+          leftIcon={<Ionicons name="game-controller" size={20} color={NeoBrutalism.colors.white} />}
           textColor="white"
           leftAction={
             <TouchableOpacity onPress={() => {
@@ -233,10 +237,10 @@ export default function GameBoard({ navigation }) {
             </TouchableOpacity>
           }
         />
-        
+
         <View style={styles.content}>
           {/* Stats Section */}
-          <BrutalStats 
+          <BrutalStats
             stats={[
               { label: 'SCORE', value: score, color: NeoBrutalism.colors.neonYellow },
               { label: 'LIVES', value: lives, color: NeoBrutalism.colors.hotPink },
@@ -246,28 +250,34 @@ export default function GameBoard({ navigation }) {
           />
 
           {/* Game Board */}
-          <BrutalCard style={styles.boardSection}>
+          <View style={styles.boardSection}>
             <View style={styles.board}>
               {renderBoard()}
             </View>
-          </BrutalCard>
+          </View>
 
           {/* Dice Section */}
-          <BrutalCard style={styles.diceSection}>
-            <View style={styles.diceValueContainer}>
-              {diceValue && (
-                <Text style={brutalTextStyle('h4', 'bold', 'black')}>🎲 {diceValue}</Text>
-              )}
-            </View>
-            <BrutalButton
-              title={isRolling ? 'ROLLING...' : 'ROLL DICE'}
+          <View style={styles.diceSection}>
+            <TouchableOpacity
+              style={styles.combinedDiceButton}
               onPress={rollDice}
-              variant="primary"
-              size="large"
-              disabled={isRolling}
-              icon={<Ionicons name="cube" size={24} color={NeoBrutalism.colors.black} />}
-            />
-          </BrutalCard>
+              disabled={isRolling || lives <= 0}
+            >
+              <View style={styles.diceDisplay}>
+                {diceValue ? (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <Ionicons name="dice" size={20} color={NeoBrutalism.colors.black} />
+                    <Text style={styles.diceValueText}>{diceValue}</Text>
+                  </View>
+                ) : (
+                  <Ionicons name="cube" size={32} color={NeoBrutalism.colors.black} />
+                )}
+              </View>
+              <Text style={styles.rollButtonText}>
+                {isRolling ? 'ROLLING...' : 'TAP TO ROLL DICE'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Tile Effect Modal */}
@@ -283,7 +293,7 @@ export default function GameBoard({ navigation }) {
             <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.effectMessage]}>
               {currentTileEffect?.message?.toUpperCase()}
             </Text>
-            
+
             {currentTileEffect?.isChoice ? (
               <View style={styles.choiceButtons}>
                 {currentTileEffect.choices.map((choice, index) => (
@@ -323,7 +333,11 @@ export default function GameBoard({ navigation }) {
           onBackdropPress={() => clearLevelUp()}
         >
           <BrutalCard style={styles.levelUpModal}>
-            <Text style={brutalTextStyle('h4', 'bold', 'black')}>🎉 LEVEL UP! 🎉</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <Ionicons name="trophy" size={24} color={NeoBrutalism.colors.black} />
+              <Text style={brutalTextStyle('h4', 'bold', 'black')}>LEVEL UP!</Text>
+              <Ionicons name="trophy" size={24} color={NeoBrutalism.colors.black} />
+            </View>
             <Text style={brutalTextStyle('h5', 'bold', 'black')}>
               CONGRATULATIONS! YOU REACHED LEVEL {level}!
             </Text>
@@ -345,7 +359,7 @@ const styles = StyleSheet.create({
     backgroundColor: NeoBrutalism.colors.background,
   },
   topNavigation: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: NeoBrutalism.colors.background,
     paddingVertical: 8,
   },
   container: {
@@ -356,7 +370,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: NeoBrutalism.spacing.sm,
     paddingTop: NeoBrutalism.spacing.md,
-    paddingBottom: 120, // Extra padding to prevent overlap with bottom nav
+    paddingBottom: 160, // Increased padding to prevent overlap with bottom nav
   },
   statsSection: {
     marginBottom: 12,
@@ -379,14 +393,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   boardSection: {
-    marginBottom: 4,
+    marginBottom: 8,
     alignItems: 'center',
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-    padding: 6,
+    padding: NeoBrutalism.spacing.sm,
   },
   board: {
     alignSelf: 'center',
+    borderWidth: NeoBrutalism.borders.medium,
+    borderColor: NeoBrutalism.colors.black,
+    backgroundColor: NeoBrutalism.colors.black,
+    padding: 2,
   },
   row: {
     flexDirection: 'row',
@@ -394,46 +410,56 @@ const styles = StyleSheet.create({
   tile: {
     width: TILE_SIZE,
     height: TILE_SIZE,
-    margin: 0.5,
+    margin: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 3,
+    borderRadius: NeoBrutalism.borders.radius,
+    borderWidth: NeoBrutalism.borders.thin,
+    borderColor: NeoBrutalism.colors.black,
     position: 'relative',
+    ...NeoBrutalism.shadows.none,
   },
   playerTile: {
-    borderWidth: 3,
-    borderColor: '#FFD700',
-  },
-  tileNumber: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    color: 'white',
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.game.board.player,
+    ...NeoBrutalism.shadows.brutal,
   },
   tileIcon: {
-    fontSize: 14,
-    position: 'absolute',
-    bottom: 2,
+    fontSize: 16,
+    fontWeight: NeoBrutalism.typography.bold,
+    color: NeoBrutalism.colors.black,
+    textAlign: 'center',
   },
   player: {
     position: 'absolute',
-    top: -5,
-    right: -5,
-    backgroundColor: '#FFD700',
-    borderRadius: 10,
-    width: 20,
-    height: 20,
+    top: -8,
+    right: -8,
+    backgroundColor: NeoBrutalism.game.board.player,
+    borderWidth: NeoBrutalism.borders.thin,
+    borderColor: NeoBrutalism.colors.black,
+    borderRadius: NeoBrutalism.borders.radius,
+    width: 24,
+    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
+    ...NeoBrutalism.shadows.brutal,
+  },
+  playerIcon: {
+    fontSize: 12,
+    fontWeight: NeoBrutalism.typography.bold,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   effectModal: {
-    margin: 20,
+    margin: NeoBrutalism.spacing.lg,
     alignItems: 'center',
-    padding: 20,
-    borderWidth: 0,
-    backgroundColor: NeoBrutalism.colors.white,
+    padding: NeoBrutalism.spacing.lg,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    borderRadius: NeoBrutalism.borders.radius,
+    ...NeoBrutalism.shadows.brutal,
   },
   effectTitle: {
     marginBottom: 16,
@@ -454,11 +480,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   levelUpModal: {
-    margin: 20,
+    margin: NeoBrutalism.spacing.lg,
     alignItems: 'center',
-    padding: 30,
-    backgroundColor: '#F0F8FF',
-    borderWidth: 0,
+    padding: NeoBrutalism.spacing.xl,
+    backgroundColor: NeoBrutalism.colors.neonGreen,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    borderRadius: NeoBrutalism.borders.radius,
+    ...NeoBrutalism.shadows.brutal,
   },
   levelUpTitle: {
     color: '#6C5CE7',
@@ -479,23 +508,36 @@ const styles = StyleSheet.create({
   },
   diceSection: {
     alignItems: 'center',
+    paddingVertical: NeoBrutalism.spacing.sm,
+    marginBottom: 60, // Move dice button higher up
+    paddingHorizontal: NeoBrutalism.spacing.md,
+  },
+  combinedDiceButton: {
+    backgroundColor: NeoBrutalism.colors.neonYellow,
+    borderWidth: NeoBrutalism.borders.thick,
+    borderColor: NeoBrutalism.colors.black,
+    borderRadius: NeoBrutalism.borders.buttonRadius,
     paddingVertical: NeoBrutalism.spacing.md,
-    marginBottom: NeoBrutalism.spacing.lg,
-    paddingHorizontal: 12,
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  },
-  diceTitle: {
-    marginBottom: 8,
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2E384D',
-  },
-  diceValueContainer: {
-    height: 50, // Fixed height to prevent layout shift
-    justifyContent: 'center',
+    paddingHorizontal: NeoBrutalism.spacing.lg,
     alignItems: 'center',
-    marginBottom: 12,
+    minWidth: 200,
+    ...NeoBrutalism.shadows.brutal,
+  },
+  diceDisplay: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: NeoBrutalism.spacing.sm,
+  },
+  diceValueText: {
+    fontSize: NeoBrutalism.typography.h3,
+    fontWeight: NeoBrutalism.typography.bold,
+    color: NeoBrutalism.colors.black,
+  },
+  rollButtonText: {
+    fontSize: NeoBrutalism.typography.button,
+    fontWeight: NeoBrutalism.typography.bold,
+    color: NeoBrutalism.colors.black,
+    textAlign: 'center',
   },
   diceValue: {
     marginBottom: 0,

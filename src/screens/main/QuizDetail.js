@@ -113,7 +113,7 @@ export default function QuizDetail({ navigation, route }) {
       earnAITokens(topic.tokenReward);
       setHasCompleted(true);
       Alert.alert(
-        'Correct! 🎉',
+        'Correct!',
         `Great job! You earned ${topic.tokenReward} AI tokens for completing this topic!`,
         [{ text: 'Continue Learning', onPress: () => setCurrentStep('completed') }]
       );
@@ -197,7 +197,7 @@ export default function QuizDetail({ navigation, route }) {
 
           {currentStep === 'completed' && (
             <BrutalCard style={styles.completedCard}>
-              <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.completedTitle]}>🎉 TOPIC COMPLETED!</Text>
+              <Text style={[brutalTextStyle('h5', 'bold', 'black'), styles.completedTitle]}>TOPIC COMPLETED!</Text>
               <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.completedText]}>
                 CONGRATULATIONS! YOU'VE SUCCESSFULLY COMPLETED {topicData.title.toUpperCase()}.
               </Text>
@@ -220,11 +220,11 @@ export default function QuizDetail({ navigation, route }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.background,
+    backgroundColor: NeoBrutalism.colors.background, // This is already cream (#FFF8E1)
   },
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.background,
+    backgroundColor: NeoBrutalism.colors.background, // This is already cream (#FFF8E1)
   },
   content: {
     flex: 1,
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 3,
     borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background, // Cream background
   },
   selectedOption: {
     backgroundColor: NeoBrutalism.colors.neonYellow,

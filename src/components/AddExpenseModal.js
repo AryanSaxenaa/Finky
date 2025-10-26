@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
 import { Ionicons } from '@expo/vector-icons';
 import { useExpenseStore } from '../store/index.js';
@@ -16,10 +16,6 @@ export default function AddExpenseModal({ visible, onClose }) {
   const [description, setDescription] = useState('');
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
-  const [showAmountInput, setShowAmountInput] = useState(false);
-  const [showDescriptionInput, setShowDescriptionInput] = useState(false);
-  const [tempAmount, setTempAmount] = useState('');
-  const [tempDescription, setTempDescription] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString());
   const { categories, addExpense } = useExpenseStore();
 
@@ -30,10 +26,6 @@ export default function AddExpenseModal({ visible, onClose }) {
       setDescription('');
       setSelectedCategoryIndex(null);
       setShowCategoryPicker(false);
-      setShowAmountInput(false);
-      setShowDescriptionInput(false);
-      setTempAmount('');
-      setTempDescription('');
       setDate(new Date().toLocaleDateString());
     }
   }, [visible]);
@@ -41,18 +33,6 @@ export default function AddExpenseModal({ visible, onClose }) {
   const handleCategorySelect = (index) => {
     setSelectedCategoryIndex(index);
     setShowCategoryPicker(false);
-  };
-
-  const handleAmountSave = () => {
-    setAmount(tempAmount);
-    setShowAmountInput(false);
-    setTempAmount('');
-  };
-
-  const handleDescriptionSave = () => {
-    setDescription(tempDescription);
-    setShowDescriptionInput(false);
-    setTempDescription('');
   };
 
   const handleSave = () => {
@@ -76,6 +56,8 @@ export default function AddExpenseModal({ visible, onClose }) {
       onBackdropPress={onClose}
       onBackButtonPress={onClose}
       style={styles.modal}
+      avoidKeyboard={true}
+      backdropOpacity={0.5}
     >
       <View style={styles.container}>
         <View style={styles.header}>
@@ -87,20 +69,22 @@ export default function AddExpenseModal({ visible, onClose }) {
           </TouchableOpacity>
         </View>
 
-          <View style={styles.form}>
+          <ScrollView 
+            style={styles.form}
+            contentContainerStyle={styles.formContent}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.inputContainer}>
-              <Text style={brutalTextStyle('body', 'bold', 'black')}>AMOUNT ($)</Text>
-              <TouchableOpacity 
-                style={styles.brutaInput} 
-                onPress={() => {
-                  setTempAmount(amount);
-                  setShowAmountInput(true);
-                }}
-              >
-                <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.inputText, !amount && styles.placeholderText]}>
-                  {amount || '0.00'}
-                </Text>
-              </TouchableOpacity>
+              <Text style={brutalTextStyle('body', 'bold', 'black')}>AMOUNT (₹)</Text>
+              <TextInput
+                style={styles.directInput}
+                value={amount}
+                onChangeText={setAmount}
+                placeholder="0.00"
+                placeholderTextColor={NeoBrutalism.colors.gray}
+                keyboardType="numeric"
+                returnKeyType="next"
+              />
             </View>
 
             <View style={styles.inputContainer}>
@@ -114,33 +98,34 @@ export default function AddExpenseModal({ visible, onClose }) {
                     ? categories[selectedCategoryIndex].toUpperCase()
                     : 'SELECT CATEGORY'}
                 </Text>
+                <Ionicons name="chevron-down" size={20} color={NeoBrutalism.colors.black} />
               </TouchableOpacity>
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={brutalTextStyle('body', 'bold', 'black')}>DESCRIPTION</Text>
-              <TouchableOpacity 
-                style={styles.brutaInput} 
-                onPress={() => {
-                  setTempDescription(description);
-                  setShowDescriptionInput(true);
-                }}
-              >
-                <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.inputText, !description && styles.placeholderText]}>
-                  {description || 'DESCRIPTION (OPTIONAL)'}
-                </Text>
-              </TouchableOpacity>
+              <TextInput
+                style={[styles.directInput, styles.multilineDirectInput]}
+                value={description}
+                onChangeText={setDescription}
+                placeholder="Description (optional)"
+                placeholderTextColor={NeoBrutalism.colors.gray}
+                multiline
+                numberOfLines={3}
+                returnKeyType="done"
+              />
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={brutalTextStyle('body', 'bold', 'black')}>DATE</Text>
-              <View style={styles.brutaInput}>
+              <View style={styles.dateDisplay}>
+                <Ionicons name="calendar" size={20} color={NeoBrutalism.colors.black} />
                 <Text style={brutalTextStyle('body', 'medium', 'black')}>
                   {date}
                 </Text>
               </View>
             </View>
-          </View>
+          </ScrollView>
 
           <View style={styles.buttonContainer}>
             <BrutalButton
@@ -166,150 +151,120 @@ export default function AddExpenseModal({ visible, onClose }) {
           style={styles.categoryModal}
         >
           <BrutalCard style={styles.categoryContainer}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.categoryTitle]}> SELECT CATEGORY</Text>
-            <View style={styles.categoryScrollContainer}>
+            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.categoryTitle]}>SELECT CATEGORY</Text>
+            <ScrollView 
+              style={styles.categoryScrollContainer}
+              showsVerticalScrollIndicator={true}
+              nestedScrollEnabled={true}
+            >
               {categories.map((category, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.categoryOption}
                   onPress={() => handleCategorySelect(index)}
                 >
-                  <Text style={[brutalTextStyle('body', 'medium', 'black'), { fontSize: 12 }]}>{category.toUpperCase()}</Text>
+                  <Text style={[brutalTextStyle('body', 'medium', 'black'), styles.categoryText]}>{category.toUpperCase()}</Text>
                 </TouchableOpacity>
               ))}
-            </View>
+            </ScrollView>
           </BrutalCard>
         </Modal>
 
-        {/* Amount Input Modal */}
-        <Modal
-          isVisible={showAmountInput}
-          onBackdropPress={() => setShowAmountInput(false)}
-          onBackButtonPress={() => setShowAmountInput(false)}
-          style={styles.inputModal}
-        >
-          <BrutalCard style={styles.inputContainer}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.inputTitle]}> ENTER AMOUNT</Text>
-            <TextInput
-              style={styles.textInput}
-              value={tempAmount}
-              onChangeText={setTempAmount}
-              placeholder="0.00"
-              keyboardType="numeric"
-              autoFocus
-            />
-            <View style={styles.inputButtonContainer}>
-              <BrutalButton
-                title="CANCEL"
-                variant="outline"
-                style={styles.inputButton}
-                onPress={() => setShowAmountInput(false)}
-              />
-              <BrutalButton
-                title="SAVE"
-                style={styles.inputButton}
-                onPress={handleAmountSave}
-              />
-            </View>
-          </BrutalCard>
-        </Modal>
 
-        {/* Description Input Modal */}
-        <Modal
-          isVisible={showDescriptionInput}
-          onBackdropPress={() => setShowDescriptionInput(false)}
-          onBackButtonPress={() => setShowDescriptionInput(false)}
-          style={styles.inputModal}
-        >
-          <BrutalCard style={styles.inputContainer}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.inputTitle]}> ENTER DESCRIPTION</Text>
-            <TextInput
-              style={styles.textInput}
-              value={tempDescription}
-              onChangeText={setTempDescription}
-              placeholder="Description (optional)"
-              multiline
-              autoFocus
-            />
-            <View style={styles.inputButtonContainer}>
-              <BrutalButton
-                title="CANCEL"
-                variant="outline"
-                style={styles.inputButton}
-                onPress={() => setShowDescriptionInput(false)}
-              />
-              <BrutalButton
-                title="SAVE"
-                style={styles.inputButton}
-                onPress={handleDescriptionSave}
-              />
-            </View>
-          </BrutalCard>
-        </Modal>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    margin: 0,
+    justifyContent: 'center',
+  },
   container: {
-    flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
-    margin: 20,
-    borderWidth: 4,
+    backgroundColor: NeoBrutalism.colors.background,
+    margin: NeoBrutalism.spacing.lg,
+    borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
+    maxHeight: '80%',
+    minHeight: '60%',
+    flexDirection: 'column',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: NeoBrutalism.spacing.lg,
+    paddingVertical: NeoBrutalism.spacing.md,
     backgroundColor: NeoBrutalism.colors.darkBlue,
-    borderBottomWidth: 4,
+    borderBottomWidth: NeoBrutalism.borders.thick,
     borderBottomColor: NeoBrutalism.colors.black,
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
   },
   closeButton: {
     minWidth: 40,
   },
   form: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+  },
+  formContent: {
+    paddingHorizontal: NeoBrutalism.spacing.lg,
+    paddingTop: NeoBrutalism.spacing.lg,
+    paddingBottom: NeoBrutalism.spacing.xl,
   },
   inputContainer: {
     marginBottom: 20,
   },
-  brutaInput: {
-    borderWidth: 3,
+
+  categoryButton: {
+    borderWidth: NeoBrutalism.borders.medium,
+    borderColor: NeoBrutalism.colors.black,
+    backgroundColor: NeoBrutalism.colors.neonYellow,
+    padding: NeoBrutalism.spacing.md,
+    marginTop: NeoBrutalism.spacing.sm,
+    minHeight: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  directInput: {
+    borderWidth: NeoBrutalism.borders.medium,
     borderColor: NeoBrutalism.colors.black,
     backgroundColor: NeoBrutalism.colors.white,
-    padding: 16,
-    marginTop: 8,
+    padding: NeoBrutalism.spacing.md,
+    marginTop: NeoBrutalism.spacing.sm,
     minHeight: 50,
-    justifyContent: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+    color: NeoBrutalism.colors.black,
   },
-  inputText: {
-    minHeight: 20,
+  multilineDirectInput: {
+    minHeight: 80,
+    textAlignVertical: 'top',
   },
-  placeholderText: {
-    opacity: 0.6,
-  },
-  categoryButton: {
-    borderWidth: 3,
+  dateDisplay: {
+    borderWidth: NeoBrutalism.borders.medium,
     borderColor: NeoBrutalism.colors.black,
     backgroundColor: NeoBrutalism.colors.lightGray,
-    padding: 16,
-    marginTop: 8,
+    padding: NeoBrutalism.spacing.md,
+    marginTop: NeoBrutalism.spacing.sm,
     minHeight: 50,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: NeoBrutalism.spacing.sm,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    paddingTop: 16,
-    gap: 12,
+    paddingHorizontal: NeoBrutalism.spacing.lg,
+    paddingBottom: NeoBrutalism.spacing.lg,
+    paddingTop: NeoBrutalism.spacing.md,
+    gap: NeoBrutalism.spacing.md,
+    backgroundColor: NeoBrutalism.colors.background, // Ensure background
+    borderTopWidth: NeoBrutalism.borders.thin,
+    borderTopColor: NeoBrutalism.colors.black,
   },
   button: {
     flex: 1,
@@ -319,49 +274,33 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   categoryContainer: {
-    backgroundColor: NeoBrutalism.colors.white,
-    borderWidth: 4,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
-    padding: 20,
-    maxHeight: '70%', // Limit height to prevent overflow
+    padding: NeoBrutalism.spacing.lg,
+    maxHeight: '60%', // Reduced height to prevent overflow
+    minHeight: 200, // Minimum height for usability
   },
   categoryTitle: {
-    marginBottom: 16,
+    marginBottom: NeoBrutalism.spacing.md,
     textAlign: 'center',
   },
   categoryScrollContainer: {
-    maxHeight: 300, // Scrollable area for categories
+    flex: 1,
+    maxHeight: 250, // Fixed max height for scrolling
   },
   categoryOption: {
-    padding: 12, // Reduced padding for better fit
-    borderWidth: 2,
+    padding: NeoBrutalism.spacing.sm,
+    borderWidth: NeoBrutalism.borders.medium,
     borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.lightGray,
-    marginBottom: 6, // Reduced margin
-  },
-  inputModal: {
+    backgroundColor: NeoBrutalism.colors.background,
+    marginBottom: NeoBrutalism.spacing.xs,
+    minHeight: 44, // Minimum touch target size
     justifyContent: 'center',
-    margin: 20,
   },
-  inputTitle: {
-    marginBottom: 16,
+  categoryText: {
+    fontSize: 14,
     textAlign: 'center',
   },
-  textInput: {
-    borderWidth: 3,
-    borderColor: NeoBrutalism.colors.black,
-    backgroundColor: NeoBrutalism.colors.white,
-    padding: 16,
-    marginBottom: 20,
-    fontSize: 16,
-    fontWeight: '600',
-    minHeight: 50,
-  },
-  inputButtonContainer: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  inputButton: {
-    flex: 1,
-  },
+
 });

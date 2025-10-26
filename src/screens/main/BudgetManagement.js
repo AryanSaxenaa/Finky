@@ -110,10 +110,10 @@ export default function BudgetManagement({ navigation }) {
         <View style={styles.amountSection}>
           <View style={styles.amountRow}>
             <Text style={[brutalTextStyle('h4', 'bold', 'black'), styles.spentAmount]}>
-              ₹{budget.spent}
+              ₹{Number(budget.spent).toFixed(2)}
             </Text>
             <Text style={[brutalTextStyle('body', 'medium', 'gray'), styles.limitText]}>
-              OF ₹{budget.limit}
+              OF ₹{Number(budget.limit).toFixed(2)}
             </Text>
           </View>
           
@@ -130,7 +130,7 @@ export default function BudgetManagement({ navigation }) {
               />
             </View>
             <Text style={brutalTextStyle('caption', 'bold', 'black')}>
-              {budget.percentage}%
+              {Number(budget.percentage).toFixed(1)}%
             </Text>
           </View>
 
@@ -146,8 +146,8 @@ export default function BudgetManagement({ navigation }) {
             ]}
           >
             {budget.isOverBudget 
-              ? `$${Math.abs(budget.remaining)} OVER BUDGET`
-              : `$${budget.remaining} REMAINING THIS MONTH`
+              ? `₹${Number(Math.abs(budget.remaining)).toFixed(2)} OVER BUDGET`
+              : `₹${Number(budget.remaining).toFixed(2)} REMAINING THIS MONTH`
             }
           </Text>
         </View>

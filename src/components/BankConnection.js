@@ -46,7 +46,7 @@ export default function BankConnection() {
   };
 
   const handleOnSuccess = async (success) => {
-    console.log('🎉 handleOnSuccess called with:', success);
+    console.log('handleOnSuccess called with:', success);
     setIsLoading(true);
     try {
       console.log('Calling connectPlaidAccount with publicToken:', success.publicToken);
@@ -55,7 +55,7 @@ export default function BankConnection() {
       
       if (result.success) {
         Alert.alert(
-          '🎉 Success!', 
+          'Success!', 
           'Bank account connected successfully!\n\nYour real transaction data has been loaded.',
           [{ text: 'Great!', style: 'default' }]
         );
@@ -216,7 +216,7 @@ export default function BankConnection() {
             </Text>
           </BrutalCard>
 
-          <BrutalCard style={styles.card}>
+          <BrutalCard style={styles.mainCard}>
             {!isPlaidConnected ? (
               <View style={styles.connectSection}>
                 <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.connectTitle]}>
@@ -247,7 +247,7 @@ export default function BankConnection() {
                 {!linkToken && !isLoading && (
                   <BrutalCard style={styles.errorCard}>
                     <Text style={[brutalTextStyle('body', 'bold', 'white'), styles.errorText]}>
-                      ⚠️ CONNECTION FAILED
+                      CONNECTION FAILED
                     </Text>
                     <Text style={[brutalTextStyle('caption', 'medium', 'white'), styles.errorSubtext]}>
                       Please check your internet connection and try again.
@@ -285,7 +285,7 @@ export default function BankConnection() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   container: {
     flex: 1,
@@ -295,24 +295,40 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: NeoBrutalism.spacing.md,
-    paddingBottom: 100,
+    padding: NeoBrutalism.spacing.lg,
+    paddingBottom: 120,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: NeoBrutalism.spacing.xl,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: NeoBrutalism.spacing.lg,
     textAlign: 'center',
   },
-  card: {
-    marginBottom: 16,
-    borderWidth: 3,
-    borderColor: NeoBrutalism.colors.black,
+  infoCard: {
+    marginBottom: NeoBrutalism.spacing.xl,
+    padding: NeoBrutalism.spacing.xl,
+    backgroundColor: NeoBrutalism.colors.background,
+  },
+  iconContainer: {
+    alignItems: 'center',
+    marginBottom: NeoBrutalism.spacing.lg,
+  },
+  infoTitle: {
+    textAlign: 'center',
+    marginBottom: NeoBrutalism.spacing.md,
+  },
+  infoDescription: {
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  mainCard: {
+    marginBottom: NeoBrutalism.spacing.lg,
+    padding: NeoBrutalism.spacing.xl,
     backgroundColor: NeoBrutalism.colors.lightGray,
-    padding: 16,
   },
   header: {
     alignItems: 'center',
@@ -332,15 +348,44 @@ const styles = StyleSheet.create({
   connectSection: {
     alignItems: 'center',
   },
+  connectTitle: {
+    textAlign: 'center',
+    marginBottom: NeoBrutalism.spacing.lg,
+  },
+  buttonGroup: {
+    width: '100%',
+    gap: NeoBrutalism.spacing.md,
+    marginBottom: NeoBrutalism.spacing.lg,
+  },
   connectButton: {
     minWidth: 200,
-    marginBottom: 0,
+    marginBottom: NeoBrutalism.spacing.sm,
+  },
+  errorCard: {
+    backgroundColor: NeoBrutalism.colors.pureRed,
+    padding: NeoBrutalism.spacing.lg,
+    marginTop: NeoBrutalism.spacing.lg,
+  },
+  errorText: {
+    textAlign: 'center',
+    marginBottom: NeoBrutalism.spacing.sm,
+  },
+  errorSubtext: {
+    textAlign: 'center',
   },
   connectedSection: {
     alignItems: 'center',
   },
-  successText: {
-    color: NeoBrutalism.colors.neonGreen,
+  successIcon: {
+    marginBottom: NeoBrutalism.spacing.lg,
+  },
+  successTitle: {
     textAlign: 'center',
+    marginBottom: NeoBrutalism.spacing.md,
+  },
+  successText: {
+    color: NeoBrutalism.colors.gray,
+    textAlign: 'center',
+    lineHeight: 24,
   },
 });

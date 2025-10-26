@@ -12,7 +12,7 @@ export const FinkyTheme = {
     text: '#1C1C1C',       // Dark text
     primary: '#2ECC71',     // Green for success and saving
     accent: '#F39C12',      // Orange for calls to action
-    card: '#FFFFFF',        // White for cards
+    card: '#FFF8E1',        // Cream for cards
     border: '#1C1C1C',      // Dark border for Neo-Brutalism
     
     // Legacy colors for compatibility
@@ -40,7 +40,7 @@ export const FinkyTheme = {
     
     // Backgrounds
     surface: '#1C1C1C',
-    cardBackground: '#FFFFFF',
+    cardBackground: '#FFF8E1',
   },
 
   // Typography
@@ -117,7 +117,7 @@ export const FinkyTheme = {
         paddingHorizontal: 16,
       },
       secondary: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFF8E1',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 2,
@@ -145,7 +145,7 @@ export const FinkyTheme = {
     // Card Styles
     card: {
       default: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFF8E1',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 0,
@@ -160,7 +160,7 @@ export const FinkyTheme = {
       },
       surface: {
         backgroundColor: '#000000',
-        borderColor: '#FFFFFF',
+        borderColor: '#FFF8E1',
         borderWidth: 4,
         borderRadius: 0,
         padding: 20,
@@ -170,7 +170,7 @@ export const FinkyTheme = {
     // Input Styles
     input: {
       default: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFF8E1',
         borderColor: '#000000',
         borderWidth: 4,
         borderRadius: 0,
@@ -189,7 +189,7 @@ export const FinkyTheme = {
         borderBottomWidth: 4,
       },
       tab: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFF8E1',
         borderTopColor: '#000000',
         borderTopWidth: 4,
       },

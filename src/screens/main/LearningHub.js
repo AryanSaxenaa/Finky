@@ -68,6 +68,8 @@ export default function LearningHub({ navigation }) {
       <View style={styles.container}>
         <BrutalHeader 
           title="LEARNING HUB"
+          subtitle="MASTER FINANCIAL CONCEPTS"
+          leftIcon={<Ionicons name="library" size={20} color={NeoBrutalism.colors.white} />}
           textColor="white"
           rightAction={
             <View style={styles.tokenBadge}>

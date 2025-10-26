@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NeoBrutalism, createBrutalButton, createBrutalCard } from '../styles/neoBrutalism';
 
 // Text styling function
@@ -240,7 +241,7 @@ export const BrutalInput = ({
     <TextInput
       style={[
         {
-          backgroundColor: NeoBrutalism.colors.white,
+          backgroundColor: NeoBrutalism.colors.background,
           borderColor: NeoBrutalism.colors.black,
           borderWidth: NeoBrutalism.borders.thick,
           borderRadius: NeoBrutalism.borders.buttonRadius,
@@ -329,7 +330,7 @@ export const BrutalGameTile = ({
       </Text>
       {isPlayer && (
         <View style={styles.playerIndicator}>
-          <Text style={styles.playerEmoji}>👤</Text>
+          <Ionicons name="person" size={12} color="#000" />
         </View>
       )}
     </TouchableOpacity>
@@ -377,7 +378,7 @@ const styles = StyleSheet.create({
     padding: NeoBrutalism.spacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     ...NeoBrutalism.shadows.brutal,
   },
   illustration: {

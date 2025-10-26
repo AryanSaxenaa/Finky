@@ -95,6 +95,9 @@ export default function GameHome({ navigation }) {
       <Layout style={styles.container}>
         <BrutalHeader 
           title="GAME CENTER"
+          subtitle="CHALLENGE YOUR FINANCIAL SKILLS"
+          leftIcon={<Ionicons name="trophy" size={20} color={NeoBrutalism.colors.white} />}
+          textColor="white"
         />
       
         {/* Top Section with Level Progress and Leaderboard */}
@@ -187,12 +190,12 @@ const styles = StyleSheet.create({
   },
   topSection: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center', // Center the buttons
     alignItems: 'center',
     marginTop: NeoBrutalism.spacing.sm,
     marginBottom: NeoBrutalism.spacing.md,
-    paddingHorizontal: NeoBrutalism.spacing.md,
-    gap: NeoBrutalism.spacing.sm,
+    paddingHorizontal: NeoBrutalism.spacing.xl, // More padding from edges
+    gap: NeoBrutalism.spacing.lg, // Larger gap between buttons
   },
   levelProgressContainer: {
     flex: 1,
@@ -201,9 +204,9 @@ const styles = StyleSheet.create({
   levelProgressCard: {
     flex: 1,
     marginRight: 16,
-    backgroundColor: '#FFF',
-    borderColor: '#E4E9F2',
-    borderWidth: 1,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderColor: NeoBrutalism.colors.black,
+    borderWidth: NeoBrutalism.borders.medium,
   },
   levelInfo: {
     flexDirection: 'row',
@@ -240,16 +243,16 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   compactLevelButton: {
-    backgroundColor: '#FFF',
-    borderColor: '#E4E9F2',
-    borderWidth: 1,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderColor: NeoBrutalism.colors.black,
+    borderWidth: NeoBrutalism.borders.medium,
     borderRadius: 8,
-    paddingLeft: 2, // Further reduced left padding (was 8, now 2)
-    paddingRight: 20, // Increased right padding
-    paddingVertical: 8,
-    minHeight: 44, // Ensure consistent height
-    justifyContent: 'center', // Center content vertically
-    alignItems: 'center', // Center content horizontally
+    paddingHorizontal: NeoBrutalism.spacing.md, // Consistent horizontal padding
+    paddingVertical: NeoBrutalism.spacing.sm,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, // Make buttons equal width
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -260,16 +263,16 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   compactLeaderboardButton: {
-    backgroundColor: '#FFF',
-    borderColor: '#E4E9F2',
-    borderWidth: 1,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderColor: NeoBrutalism.colors.black,
+    borderWidth: NeoBrutalism.borders.medium,
     borderRadius: 8,
-    paddingLeft: 18, // Increased left padding (was 12, now 12 + 6 from level button reduction)
-    paddingRight: 17, // Reduced by 3px (was 20, now 17)
-    paddingVertical: 8,
-    minHeight: 44, // Ensure consistent height
-    justifyContent: 'center', // Center content vertically
-    alignItems: 'center', // Center content horizontally
+    paddingHorizontal: NeoBrutalism.spacing.md, // Consistent horizontal padding
+    paddingVertical: NeoBrutalism.spacing.sm,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, // Make buttons equal width
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -297,7 +300,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   playButton: {
-    backgroundColor: NeoBrutalism.colors.white, // Changed to white
+    backgroundColor: NeoBrutalism.colors.neonYellow, // Changed to yellow for visibility
     borderColor: NeoBrutalism.colors.black, // Black border for contrast
     borderWidth: 3, // Added border width
     borderRadius: 8,
@@ -344,9 +347,9 @@ const styles = StyleSheet.create({
   },
   xpProgressBar: {
     height: 8,
-    backgroundColor: '#FFF',
-    borderColor: '#E4E9F2',
-    borderWidth: 1,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderColor: NeoBrutalism.colors.black,
+    borderWidth: NeoBrutalism.borders.thin,
     borderRadius: 8,
     paddingLeft: 0, // Reduced by 2
     paddingRight: 18, // Reduced by 2
@@ -389,9 +392,9 @@ const styles = StyleSheet.create({
     color: '#2E384D',
   },
   challengeButton: {
-    backgroundColor: '#FFF',
-    borderColor: '#E4E9F2',
-    borderWidth: 1,
+    backgroundColor: NeoBrutalism.colors.background,
+    borderColor: NeoBrutalism.colors.black,
+    borderWidth: NeoBrutalism.borders.medium,
     borderRadius: 8,
     paddingLeft: 16, // Reduced by 2
     paddingRight: 15, // Reduced by 2

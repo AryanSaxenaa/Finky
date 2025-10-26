@@ -13,7 +13,12 @@ export default function DailyChallenge({ navigation }) {
   if (!gameStore) {
     return (
       <View style={styles.container}>
-        <BrutalHeader title="DAILY CHALLENGE" />
+        <BrutalHeader 
+          title="DAILY CHALLENGE" 
+          subtitle="EARN BONUS REWARDS"
+          leftIcon={<Ionicons name="calendar" size={20} color={NeoBrutalism.colors.white} />}
+          textColor="white"
+        />
         <View style={styles.content}>
           <BrutalCard>
             <Text style={brutalTextStyle('body', 'medium', 'black')}>LOADING...</Text>
@@ -94,7 +99,7 @@ export default function DailyChallenge({ navigation }) {
       
       setTimeout(() => {
         Alert.alert(
-          'Correct! 🎉',
+          'Correct!',
           `Great job! You earned ${bonusXP} XP!`,
           [
             {
@@ -332,7 +337,7 @@ const styles = StyleSheet.create({
   optionButton: {
     marginBottom: NeoBrutalism.spacing.sm,
     padding: NeoBrutalism.spacing.md,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
     borderRadius: NeoBrutalism.borders.buttonRadius,

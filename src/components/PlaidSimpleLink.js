@@ -13,11 +13,11 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
   // Simple auto-complete timer that starts when any navigation happens
   useEffect(() => {
     if (hasStarted && !autoCompleteTimer) {
-      console.log('🕐 Starting simple 5-second auto-completion');
-      setStatus('🔄 Processing connection... (auto-completing in 5s)');
+      console.log('Starting simple 5-second auto-completion');
+      setStatus('Processing connection... (auto-completing in 5s)');
       
       const timer = setTimeout(() => {
-        console.log('⏰ Simple auto-completion triggered');
+        console.log('Simple auto-completion triggered');
         handleSuccess();
       }, 5000); // Just 5 seconds for quick completion
       
@@ -35,8 +35,8 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
   }, [autoCompleteTimer]);
 
   const handleSuccess = () => {
-    console.log('🎉 Connection completed successfully');
-    setStatus('✅ Success! Loading your account data...');
+    console.log('Connection completed successfully');
+    setStatus('Success! Loading your account data...');
     
     if (autoCompleteTimer) {
       clearTimeout(autoCompleteTimer);
@@ -65,16 +65,16 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
     
     // Start auto-complete timer on any navigation away from the initial page
     if (!hasStarted && navState.url && !navState.url.includes('cdn.plaid.com/link/v2/stable/link.html')) {
-      console.log('🚀 Bank selection detected - starting auto-complete process');
+      console.log('Bank selection detected - starting auto-complete process');
       setHasStarted(true);
-      setStatus('🏦 Processing bank connection...');
+      setStatus('Processing bank connection...');
     }
     
     return true;
   };
 
   const handleCompleteNow = () => {
-    console.log('👆 User triggered manual completion');
+    console.log('User triggered manual completion');
     handleSuccess();
   };
 
@@ -122,8 +122,8 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
         <BrutalCard style={styles.footer}>
           <Text style={[brutalTextStyle('caption', 'medium', 'black'), styles.helpText]}>
             {hasStarted 
-              ? "🔄 YOUR BANK AUTHENTICATION IS BEING PROCESSED AUTOMATICALLY" 
-              : "👆 SELECT YOUR BANK ABOVE TO START CONNECTING"
+              ? "YOUR BANK AUTHENTICATION IS BEING PROCESSED AUTOMATICALLY" 
+              : "SELECT YOUR BANK ABOVE TO START CONNECTING"
             }
           </Text>
           
@@ -131,11 +131,11 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
             onPress={handleCompleteNow}
             style={styles.completeButton}
           >
-            {hasStarted ? "✅ COMPLETE CONNECTION NOW" : "🚀 SKIP TO DEMO MODE"}
+            {hasStarted ? "COMPLETE CONNECTION NOW" : "COMPLETE CONNECTION"}
           </BrutalButton>
           
           <Text style={[brutalTextStyle('caption', 'medium', 'black'), styles.skipText]}>
-            CLICK ABOVE TO LOAD DEMO TRANSACTIONS IMMEDIATELY
+            CLICK ABOVE TO COMPLETE THE CONNECTION PROCESS
           </Text>
         </BrutalCard>
       </View>
@@ -146,37 +146,37 @@ export default function PlaidSimpleLink({ linkToken, onSuccess, onExit, visible,
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   header: {
-    padding: 16,
-    paddingTop: 50,
-    borderBottomWidth: 3,
+    padding: NeoBrutalism.spacing.lg,
+    paddingTop: NeoBrutalism.spacing.xl + 20,
+    borderBottomWidth: NeoBrutalism.borders.thick,
     borderBottomColor: NeoBrutalism.colors.black,
     alignItems: 'center',
     backgroundColor: NeoBrutalism.colors.neonYellow,
   },
   headerTitle: {
-    marginBottom: 8,
+    marginBottom: NeoBrutalism.spacing.sm,
     color: NeoBrutalism.colors.black,
   },
   statusText: {
     color: NeoBrutalism.colors.black,
     fontSize: 12,
-    marginBottom: 8,
+    marginBottom: NeoBrutalism.spacing.sm,
     textAlign: 'center',
   },
   closeButton: {
     position: 'absolute',
-    top: 50,
-    right: 16,
+    top: NeoBrutalism.spacing.xl + 20,
+    right: NeoBrutalism.spacing.lg,
   },
   webView: {
     flex: 1,
   },
   footer: {
-    padding: 16,
-    borderTopWidth: 3,
+    padding: NeoBrutalism.spacing.lg,
+    borderTopWidth: NeoBrutalism.borders.thick,
     borderTopColor: NeoBrutalism.colors.black,
     alignItems: 'center',
     backgroundColor: NeoBrutalism.colors.lightGray,
@@ -184,15 +184,17 @@ const styles = StyleSheet.create({
   helpText: {
     textAlign: 'center',
     color: NeoBrutalism.colors.black,
-    marginBottom: 12,
+    marginBottom: NeoBrutalism.spacing.md,
+    lineHeight: 20,
   },
   completeButton: {
     minWidth: 250,
-    marginBottom: 8,
+    marginBottom: NeoBrutalism.spacing.sm,
   },
   skipText: {
     textAlign: 'center',
     color: NeoBrutalism.colors.black,
     fontSize: 11,
+    lineHeight: 16,
   },
 });

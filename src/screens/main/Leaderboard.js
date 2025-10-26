@@ -19,7 +19,9 @@ export default function Leaderboard({ navigation }) {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
         <BrutalHeader
-          title="TOP SAVERS"
+          title="LEADERBOARD"
+          subtitle="TOP FINANCIAL CHAMPIONS"
+          leftIcon={<Ionicons name="podium" size={20} color={NeoBrutalism.colors.white} />}
           textColor="white"
           leftAction={
             <TouchableOpacity onPress={() => navigation.goBack()}>

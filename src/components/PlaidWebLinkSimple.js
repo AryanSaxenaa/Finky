@@ -230,7 +230,7 @@ export default function PlaidWebLinkSimple({ linkToken, onSuccess, onExit, visib
         
         <BrutalCard style={styles.footer}>
           <Text style={[brutalTextStyle('caption', 'medium', 'black'), styles.helpText]}>
-            🔄 IF YOU EXPERIENCE ANY ISSUES, PLEASE CLOSE AND TRY AGAIN
+            IF YOU EXPERIENCE ANY ISSUES, PLEASE CLOSE AND TRY AGAIN
           </Text>
         </BrutalCard>
       </View>
@@ -241,7 +241,7 @@ export default function PlaidWebLinkSimple({ linkToken, onSuccess, onExit, visib
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   header: {
     flexDirection: 'column',

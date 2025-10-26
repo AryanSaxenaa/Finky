@@ -14,17 +14,8 @@ import { NeoBrutalism } from '../../styles/neoBrutalism';
 
 const { width } = Dimensions.get('window');
 
-const BackIcon = (props) => <Ionicons name="arrow-back" size={24} color="#8F9BB3" />;
-
 export default function ExpenseHistory({ navigation }) {
   const { expenses } = useExpenseStore();
-
-  const renderBackAction = () => (
-    <TopNavigationAction 
-      icon={BackIcon} 
-      onPress={() => navigation.goBack()} 
-    />
-  );
 
   // Group expenses by month for chart
   const monthlyData = expenses.reduce((acc, expense) => {
@@ -40,19 +31,19 @@ export default function ExpenseHistory({ navigation }) {
     amount,
   }));
 
-  // Prepare bar chart data
+  // Prepare bar chart data with properly formatted amounts
   const barChartData = {
     labels: chartData.map(item => item.month),
     datasets: [{
-      data: chartData.map(item => item.amount)
+      data: chartData.map(item => Number(item.amount.toFixed(2)))
     }]
   };
 
   const chartConfig = {
-    backgroundColor: NeoBrutalism.colors.white,
-    backgroundGradientFrom: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
+    backgroundGradientFrom: NeoBrutalism.colors.background,
     backgroundGradientTo: NeoBrutalism.colors.lightGray,
-    decimalPlaces: 0,
+    decimalPlaces: 2,
     color: (opacity = 1) => NeoBrutalism.colors.primary,
     labelColor: (opacity = 1) => NeoBrutalism.colors.black,
     style: {
@@ -66,13 +57,16 @@ export default function ExpenseHistory({ navigation }) {
     barPercentage: 0.7,
     fillShadowGradient: NeoBrutalism.colors.primary,
     fillShadowGradientOpacity: 1,
+    formatYLabel: (value) => `₹${Number(value).toFixed(2)}`,
   };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.container}>
         <BrutalHeader
-          title='💳 EXPENSE HISTORY'
+          title='EXPENSE TRACKER'
+          subtitle="MONITOR YOUR SPENDING"
+          leftIcon={<Ionicons name="analytics" size={20} color={NeoBrutalism.colors.white} />}
           textColor="white"
           leftAction={
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -84,7 +78,10 @@ export default function ExpenseHistory({ navigation }) {
         <ScrollView style={styles.content}>
           {chartData.length > 0 && (
             <BrutalCard style={styles.chartCard}>
-              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.chartTitle]}>📊 MONTHLY SPENDING TRENDS</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+                <Ionicons name="bar-chart" size={20} color={NeoBrutalism.colors.black} />
+                <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.chartTitle]}>MONTHLY SPENDING TRENDS</Text>
+              </View>
               <View style={styles.chartContainer}>
                 <BarChart
                   data={barChartData}
@@ -92,7 +89,7 @@ export default function ExpenseHistory({ navigation }) {
                   height={220}
                   chartConfig={chartConfig}
                   verticalLabelRotation={0}
-                  showValuesOnTopOfBars={true}
+                  showValuesOnTopOfBars={false}
                   fromZero={true}
                   style={styles.chartStyle}
                 />
@@ -101,7 +98,7 @@ export default function ExpenseHistory({ navigation }) {
                 {chartData.map((item, index) => (
                   <BrutalCard key={index} style={styles.monthItem}>
                     <Text style={brutalTextStyle('caption', 'bold', 'black')}>{item.month.toUpperCase()}</Text>
-                    <Text style={brutalTextStyle('body', 'bold', 'black')}>${item.amount.toFixed(2)}</Text>
+                    <Text style={brutalTextStyle('body', 'bold', 'black')}>₹{Number(item.amount).toFixed(2)}</Text>
                   </BrutalCard>
                 ))}
               </View>
@@ -109,9 +106,12 @@ export default function ExpenseHistory({ navigation }) {
           )}
 
           <BrutalCard style={styles.listCard}>
-            <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.listTitle]}>
-              🧾 RECENT TRANSACTIONS ({expenses.length})
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+              <Ionicons name="receipt" size={20} color={NeoBrutalism.colors.black} />
+              <Text style={[brutalTextStyle('h6', 'bold', 'black'), styles.listTitle]}>
+                RECENT TRANSACTIONS ({expenses.length})
+              </Text>
+            </View>
             {expenses.length > 0 ? (
               <View>
                 {expenses.slice().reverse().map((expense, index) => (
@@ -129,7 +129,7 @@ export default function ExpenseHistory({ navigation }) {
                         </Text>
                       </View>
                       <Text style={[brutalTextStyle('body', 'bold', 'black'), styles.expenseAmount]}>
-                        -${expense.amount.toFixed(2)}
+                        -₹{Number(expense.amount).toFixed(2)}
                       </Text>
                     </View>
                   </BrutalCard>
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: NeoBrutalism.spacing.md,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
     padding: NeoBrutalism.spacing.md,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   },
   expenseItem: {
     marginBottom: 8,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     borderWidth: 2,
     borderColor: NeoBrutalism.colors.black,
   },

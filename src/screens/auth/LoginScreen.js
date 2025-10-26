@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     marginBottom: NeoBrutalism.spacing.lg,
   },
   input: {
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
     borderWidth: NeoBrutalism.borders.thick,
     borderColor: NeoBrutalism.colors.black,
     borderRadius: 0,

@@ -29,7 +29,7 @@ export default function PlaidHostedLink({ linkToken, onSuccess, onExit, visible,
     
     // Track if user has navigated away from initial Plaid page
     if (!hasNavigatedAway && !navState.url.includes('cdn.plaid.com/link/v2/stable/link.html')) {
-      console.log('🔄 User navigated away from Plaid page - bank authentication started');
+      console.log('User navigated away from Plaid page - bank authentication started');
       setHasNavigatedAway(true);
       setStatus('Authenticating with bank...');
     }
@@ -60,7 +60,7 @@ export default function PlaidHostedLink({ linkToken, onSuccess, onExit, visible,
         navState.title.toLowerCase().includes('connected') ||
         navState.title.toLowerCase().includes('done')
     )) {
-      console.log('🎉 SUCCESS DETECTED IN TITLE:', navState.title);
+      console.log('SUCCESS DETECTED IN TITLE:', navState.title);
       handleCompletionSuccess();
       return false;
     }
@@ -74,7 +74,7 @@ export default function PlaidHostedLink({ linkToken, onSuccess, onExit, visible,
         const institutionId = url.searchParams.get('institution_id');
         const institutionName = url.searchParams.get('institution_name');
         
-        console.log('🎉 SUCCESS DETECTED IN URL PARAMS:', { publicToken, institutionId, institutionName });
+        console.log('SUCCESS DETECTED IN URL PARAMS:', { publicToken, institutionId, institutionName });
         
         if (onSuccess) {
           onSuccess({
@@ -116,7 +116,7 @@ export default function PlaidHostedLink({ linkToken, onSuccess, onExit, visible,
   };
 
   const handleCompletionSuccess = () => {
-    console.log('🎉 handleCompletionSuccess called');
+    console.log('handleCompletionSuccess called');
     setStatus('Connection successful!');
     
     // Clear timer if exists
@@ -393,7 +393,7 @@ export default function PlaidHostedLink({ linkToken, onSuccess, onExit, visible,
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF8E1',
   },
   header: {
     flexDirection: 'column',

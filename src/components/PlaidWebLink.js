@@ -390,7 +390,7 @@ export default function PlaidWebLink({ linkToken, onSuccess, onExit, visible, on
         
         <BrutalCard style={styles.footer}>
           <BrutalButton
-            title="🔄 REFRESH"
+            title="REFRESH"
             size="small"
             variant="secondary"
             onPress={refreshWebView}
@@ -405,7 +405,7 @@ export default function PlaidWebLink({ linkToken, onSuccess, onExit, visible, on
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: NeoBrutalism.colors.white,
+    backgroundColor: NeoBrutalism.colors.background,
   },
   header: {
     flexDirection: 'column',
