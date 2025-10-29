@@ -9,7 +9,11 @@ const PaymentSuccessScreen = ({ route, navigation }) => {
   const { transaction, paymentResult } = route.params;
 
   const handleDone = () => {
-    navigation.navigate('HomeTab');
+    // Navigate back to home dashboard
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeTab' }],
+    });
   };
 
   return (

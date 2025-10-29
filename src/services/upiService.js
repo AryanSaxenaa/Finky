@@ -1,35 +1,31 @@
 // UPI Sandbox Service
-// Integrates with the mock UPI sandbox server
-
-const UPI_SANDBOX_BASE_URL = 'http://localhost:3001/v1';
+// Mock implementation for demo purposes (no server required)
+// This service simulates UPI payment processing without needing a real backend server
+// In production, this would connect to actual UPI gateway APIs like Razorpay, PayU, etc.
 
 class UpiService {
   constructor() {
-    this.baseUrl = UPI_SANDBOX_BASE_URL;
+    this.mockDelay = 1000; // Simulate network delay
   }
 
-  // Create a UPI order
+  // Create a UPI order (mock implementation)
   async createOrder(amount, receipt = null) {
     try {
-      const response = await fetch(`${this.baseUrl}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: Math.round(amount * 100), // Convert to paise
-          currency: 'INR',
-          receipt: receipt || `rcpt_${Date.now()}`,
-          payment_capture: 1
-        })
-      });
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, this.mockDelay));
 
-      if (!response.ok) {
-        throw new Error(`Order creation failed: ${response.statusText}`);
-      }
+      // Generate mock order
+      const order = {
+        id: `order_${Date.now()}${Math.random().toString(36).substr(2, 9)}`,
+        amount: Math.round(amount * 100), // Convert to paise
+        currency: 'INR',
+        receipt: receipt || `rcpt_${Date.now()}`,
+        status: 'created',
+        created_at: Math.floor(Date.now() / 1000),
+        notes: {}
+      };
 
-      const order = await response.json();
-      console.log('📦 UPI Order created:', order);
+      console.log('📦 Mock UPI Order created:', order);
       return order;
     } catch (error) {
       console.error('❌ UPI Order creation failed:', error);
@@ -37,29 +33,34 @@ class UpiService {
     }
   }
 
-  // Initiate UPI payment
+  // Initiate UPI payment (mock implementation)
   async initiatePayment(orderId, amount, vpa) {
     try {
-      const response = await fetch(`${this.baseUrl}/payments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: Math.round(amount * 100), // Convert to paise
-          currency: 'INR',
-          order_id: orderId,
-          vpa: vpa,
-          method: 'upi'
-        })
-      });
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, this.mockDelay));
 
-      if (!response.ok) {
-        throw new Error(`Payment initiation failed: ${response.statusText}`);
+      // Determine payment outcome based on test VPA
+      let status = 'created';
+      if (vpa === 'failure@razorpay') {
+        status = 'failed';
+      } else if (vpa === 'success@razorpay' || vpa.includes('@')) {
+        status = 'authorized';
       }
 
-      const payment = await response.json();
-      console.log('💳 UPI Payment initiated:', payment);
+      // Generate mock payment
+      const payment = {
+        id: `pay_${Date.now()}${Math.random().toString(36).substr(2, 9)}`,
+        amount: Math.round(amount * 100),
+        currency: 'INR',
+        order_id: orderId,
+        status: status,
+        method: 'upi',
+        vpa: vpa,
+        created_at: Math.floor(Date.now() / 1000),
+        description: `Payment to ${vpa}`
+      };
+
+      console.log('💳 Mock UPI Payment initiated:', payment);
       return payment;
     } catch (error) {
       console.error('❌ UPI Payment initiation failed:', error);
@@ -67,17 +68,24 @@ class UpiService {
     }
   }
 
-  // Check payment status
+  // Check payment status (mock implementation)
   async getPaymentStatus(paymentId) {
     try {
-      const response = await fetch(`${this.baseUrl}/payments/${paymentId}`);
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      if (!response.ok) {
-        throw new Error(`Payment status check failed: ${response.statusText}`);
-      }
+      // Mock payment status - simulate successful completion
+      const payment = {
+        id: paymentId,
+        status: 'captured', // Simulate successful payment
+        amount: 10000, // Mock amount
+        currency: 'INR',
+        method: 'upi',
+        captured_at: Math.floor(Date.now() / 1000),
+        description: 'Mock UPI payment'
+      };
 
-      const payment = await response.json();
-      console.log('📊 UPI Payment status:', payment);
+      console.log('📊 Mock UPI Payment status:', payment);
       return payment;
     } catch (error) {
       console.error('❌ UPI Payment status check failed:', error);
