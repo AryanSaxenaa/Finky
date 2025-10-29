@@ -3,8 +3,8 @@
 
 
 import axios from 'axios';
-// Use process.env or hardcode the key for now (since import from .env doesn't work in JS runtime)
-const GOOGLE_API = process.env.GOOGLE_API || 'AIzaSyDFOYqeXedxoZKJMVJ1PMoeFeeLFPylyo8';
+// Use process.env to get the API key from environment variables
+const GOOGLE_API = process.env.EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY || 'AIzaSyAvZ1a675h05Ih8lSRtLNq1Klf2orfX0-o';
 
 // Use the Gemini 2.0 Flash model and v1beta endpoint as per latest documentation
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';

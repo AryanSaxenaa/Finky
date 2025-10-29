@@ -132,8 +132,9 @@ https://github.com/user-attachments/assets/f4422cd4-8d6f-498b-9870-fce390b12af8
    ```bash
    cp .env.example .env
    ```
-   Configure the following environment variables:
-   - `GOOGLE_GEMINI_API_KEY`: Google Gemini API key for AI functionality
+   Configure the following environment variables in your `.env` file:
+   - `EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY`: Google Gemini API key for AI functionality
+     - Get your API key from: https://makersuite.google.com/app/apikey
    - `PLAID_CLIENT_ID`: Plaid client identifier for banking integration
    - `PLAID_SECRET`: Plaid secret key for secure API access
    - `PLAID_ENVIRONMENT`: Plaid environment (sandbox/development/production)
