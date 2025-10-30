@@ -1,6 +1,5 @@
 
-# Finky - The UPI App That Rewards You for Saving, 
-Not Just Spending
+# Finky - The UPI App That Rewards You for Saving, Not Just Spending
 
 Finky is an advanced financial management application that combines artificial intelligence, behavioral psychology, and gamification principles to promote responsible spending habits and financial literacy. Built on React Native with Expo, the platform addresses the growing concern of impulse spending in the digital payment era by introducing proactive financial guidance and savings incentivization.
 
