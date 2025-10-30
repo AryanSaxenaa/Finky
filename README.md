@@ -121,34 +121,20 @@ The application is built using modern mobile development technologies optimized 
 ## Application Screenshots
 
 ### User Interface Gallery
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/8d69be0d-8362-4af5-b00a-529fecbd73b9" width="300" alt="Home Dashboard"/>
-  <img src="https://github.com/user-attachments/assets/5a59bcff-5179-4d33-bfcf-f96cc1bcac1e" width="300" alt="Budget Management"/>
-  <img src="https://github.com/user-attachments/assets/92546708-94da-4f59-826c-28bf6bdade94" width="300" alt="AI Chat Interface"/>
-</div>
+![1](https://github.com/user-attachments/assets/fa0380c5-1b80-4279-a458-d3899200935f)
+![2](https://github.com/user-attachments/assets/2471ac35-3740-47bc-9be3-7facaac82cef)
+![3](https://github.com/user-attachments/assets/61e5723e-c0d0-4cc3-b65d-6e365139c032)
+![4](https://github.com/user-attachments/assets/be5b4219-7c26-43c1-bcbf-fbd3fa338d83)
+![5](https://github.com/user-attachments/assets/27b0a19a-183b-4f58-92af-7866e47f0cc4)
+![6](https://github.com/user-attachments/assets/04665324-0765-4fc1-b6a1-c2e7b99c5d19)
+![7](https://github.com/user-attachments/assets/be6c3342-7211-473d-9524-ee5396cbea1b)
+![8](https://github.com/user-attachments/assets/ff3083d6-8b7e-4c3b-88d4-3a2eeb396298)
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/1a3e2c13-75eb-440c-b02c-2eb977524907" width="300" alt="Game Board"/>
-  <img src="https://github.com/user-attachments/assets/55c769af-5692-4582-8011-085355c07e2d" width="300" alt="Learning Hub"/>
-  <img src="https://github.com/user-attachments/assets/b4775418-4b32-4fdf-8cd1-c99b7f97c571" width="300" alt="Quiz Interface"/>
-</div>
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/cf821ff1-6539-4316-bfd6-088c84c4ced7" width="300" alt="Payment Interface"/>
-  <img src="https://github.com/user-attachments/assets/9e602412-871b-45c8-ad82-342ab91a9527" width="300" alt="Profile Management"/>
-  <img src="https://github.com/user-attachments/assets/a5ee3eef-d0cb-4961-b31b-1f4821ab25ca" width="300" alt="Expense Tracking"/>
-</div>
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/a6ed6db4-8dd7-4f11-930e-3d5cfe504163" width="300" alt="Analytics Dashboard"/>
-  <img src="https://github.com/user-attachments/assets/4c58ed5b-7cab-4f95-b43a-10facf7766e5" width="300" alt="Leaderboard"/>
-</div>
 
 ## Application Demonstration
 
 ### Video Walkthrough
-https://github.com/user-attachments/assets/f4422cd4-8d6f-498b-9870-fce390b12af8
-
+https://youtu.be/u-jdxEeKhW0
 
 
 ## Installation and Configuration
