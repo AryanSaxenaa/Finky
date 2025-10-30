@@ -120,14 +120,17 @@ The application is built using modern mobile development technologies optimized 
 ## Application Screenshots
 
 ### User Interface Gallery
-![1](https://github.com/user-attachments/assets/fa0380c5-1b80-4279-a458-d3899200935f)
-![2](https://github.com/user-attachments/assets/2471ac35-3740-47bc-9be3-7facaac82cef)
-![3](https://github.com/user-attachments/assets/61e5723e-c0d0-4cc3-b65d-6e365139c032)
-![4](https://github.com/user-attachments/assets/be5b4219-7c26-43c1-bcbf-fbd3fa338d83)
-![5](https://github.com/user-attachments/assets/27b0a19a-183b-4f58-92af-7866e47f0cc4)
-![6](https://github.com/user-attachments/assets/04665324-0765-4fc1-b6a1-c2e7b99c5d19)
-![7](https://github.com/user-attachments/assets/be6c3342-7211-473d-9524-ee5396cbea1b)
-![8](https://github.com/user-attachments/assets/ff3083d6-8b7e-4c3b-88d4-3a2eeb396298)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fa0380c5-1b80-4279-a458-d3899200935f" width="350" />
+  <img src="https://github.com/user-attachments/assets/2471ac35-3740-47bc-9be3-7facaac82cef" width="350" />
+  <img src="https://github.com/user-attachments/assets/61e5723e-c0d0-4cc3-b65d-6e365139c032" width="350" />
+  <img src="https://github.com/user-attachments/assets/be5b4219-7c26-43c1-bcbf-fbd3fa338d83" width="350" />
+  <img src="https://github.com/user-attachments/assets/27b0a19a-183b-4f58-92af-7866e47f0cc4" width="350" />
+  <img src="https://github.com/user-attachments/assets/04665324-0765-4fc1-b6a1-c2e7b99c5d19" width="350" />
+  <img src="https://github.com/user-attachments/assets/be6c3342-7211-473d-9524-ee5396cbea1b" width="350" />
+  <img src="https://github.com/user-attachments/assets/ff3083d6-8b7e-4c3b-88d4-3a2eeb396298" width="350" />
+</p>
 
 
 ## Application Demonstration
